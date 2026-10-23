@@ -77,6 +77,14 @@
   </figure>
 
   <!-- INSERIMENTO: Preparativi (ticket #15). Qui, tra l'illustrazione e la chiusura. -->
+  <!-- I dieci punti (titolo e riga) stanno in src/contenuti.js: src/preparativi.js riempie l'elenco una
+       volta sola all'avvio. Ogni punto è <li class="preparativo" data-preparativo="N"> con il numero
+       romano (.preparativo-numero) e un .preparativo-corpo (titolo e riga): il link del punto III
+       va in fondo al suo corpo. Nessuna spunta, nessuno stato. -->
+  <section class="preparativi">
+    <h2>Preparativi</h2>
+    <ol class="preparativi-elenco" data-preparativi></ol>
+  </section>
 
   <footer class="chiusura" data-contenuto="chiusura"></footer>
 </main>
