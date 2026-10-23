@@ -37,4 +37,19 @@ export const contenuti = {
 
   // Cosa compare al posto dei numeri dalla chiusura in poi.
   salutoChiusura: 'Il Romics è passato, e che giornata, mo chridhe. Slàinte mhath!',
+
+  // I Preparativi: esattamente dieci punti, in ordine cronologico; la pagina li numera I–X.
+  // Ognuno ha un titolo e una riga. Nessuna spunta, scadenza, data o stato.
+  preparativi: [
+    { titolo: 'Dire di sì', riga: 'Il primo passo è il più arduo, Sassenach: rispondere di sì.' },
+    { titolo: 'Rivedere le nozze', riga: 'Rivediamo insieme l\'episodio, mo chridhe, con carta e penna: i fermagli non si improvvisano.' },
+    { titolo: 'Conoscere la sarta', riga: 'Dinna fash: tra le mie conoscenze ce n\'è una abilissima.' },
+    { titolo: 'Il kilt e il plaid', riga: 'Otto iarde di tartan Fraser: non si lesina sulla stoffa.' },
+    { titolo: 'La camicia e la spilla', riga: 'Una camicia di lino, polsini ricamati d\'argento e un luccichio sul colletto.' },
+    { titolo: 'L\'abito di Claire', riga: 'Argento, non bianco: l\'abito più luminoso a lume di candela.' },
+    { titolo: 'Perle, anello e il resto', riga: 'Un filo di perle, mo nighean donn, e un anello d\'argento.' },
+    { titolo: 'I capelli', riga: 'Rosso per lui, ricci per lei: la natura fa il resto.' },
+    { titolo: 'I trucchi', riga: 'Pelle luminosa e labbra naturali: niente di moderno, Sassenach.' },
+    { titolo: 'La prova generale', riga: 'Un mese prima, vestiti di tutto punto, con tanto di foto.' },
+  ],
 };

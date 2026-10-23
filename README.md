@@ -33,6 +33,10 @@ Il Giorno del Romics, il ritardo del saluto di chiusura e i loro testi stanno in
 
 Anche la Missione (la lettera sotto il countdown, `missione`, e la sua firma, `firmaMissione`) sta in `src/contenuti.js`: il capolettera in borgogna lo fa il foglio di stile con `::first-letter`, quindi il testo resta intero. La lettera è uguale in tutte le fasi del countdown e non contiene la data del Romics.
 
+## Preparativi
+
+I dieci Preparativi (titolo e riga ciascuno, in ordine cronologico) stanno in `src/contenuti.js`, chiave `preparativi`. `src/preparativi.js` li controlla (esattamente dieci, nessun titolo o riga vuoto: altrimenti errore chiaro in italiano) e li scrive una volta sola nell'elenco ordinato `[data-preparativi]` di `index.html`, con i numeri romani I–X. Nessuna spunta, scadenza o stato: la pagina non memorizza nulla.
+
 ## Aspetto
 
 La tavolozza (carta, inchiostro, borgogna, verde muschio, cuoio) è definita come variabili su `:root` in `styles.css`, e solo lì: `test/contrasti.test.js` le legge e fallisce se una coppia scende sotto 4,5:1 (testo) o 3:1 (bordi e anello del focus). Per cambiare un colore si cambia la variabile e si lancia `npm test`.

@@ -206,6 +206,35 @@ h1 em { color: var(--wine); }
 .illustrazione svg { display: block; width: 100%; height: auto; }
 .illustrazione .pieghe { stroke: var(--paper); }
 
+/* ---------- Preparativi: dieci punti in cifre romane, senza spunte né stato ---------- */
+.preparativi { margin: 34px 0 0; text-align: left; }
+.preparativi h2 {
+  margin: 0 0 10px;
+  text-align: center;
+  font-weight: normal;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-size: 1rem;
+  color: var(--wine);
+}
+.preparativi-elenco { margin: 0; padding: 0; list-style: none; }
+.preparativo {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px dotted var(--line);
+  line-height: 1.5;
+}
+.preparativo-numero {
+  flex: 0 0 2.6rem;
+  color: var(--wine);
+  font-style: italic;
+  font-size: 1.15rem;
+}
+.preparativo-corpo { flex: 1 1 auto; min-width: 0; }
+.preparativo-titolo { display: block; font-weight: bold; }
+.preparativo-riga { display: block; color: var(--moss); }
+
 /* ---------- Chiusura ---------- */
 .chiusura {
   margin: 30px 0 0;

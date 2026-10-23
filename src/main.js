@@ -5,6 +5,7 @@
 import { contenuti } from './contenuti.js';
 import { creaCountdown } from './countdown.js';
 import { parseNow } from './now.js';
+import { scriviPreparativi, validaPreparativi } from './preparativi.js';
 import { scriviTesti, validaTesti } from './testi.js';
 import { computeView } from './view.js';
 
@@ -20,6 +21,9 @@ export function avvia(documento = document, finestra = window) {
   // I testi della testata e della chiusura si scrivono una volta sola, qui: il tick non li ridisegna.
   validaTesti(contenuti);
   scriviTesti(documento, contenuti);
+  // I Preparativi: dieci punti, scritti una volta sola.
+  validaPreparativi(contenuti);
+  scriviPreparativi(documento, contenuti);
 
   const radice = documento.querySelector('[data-countdown]');
   const countdown = creaCountdown(radice);
