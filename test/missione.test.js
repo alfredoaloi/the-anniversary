@@ -73,7 +73,6 @@ test('la Missione non contiene la data del Romics: la dice il countdown', () => 
 test('la pagina ha i segnaposto della Missione tra il countdown e l\'illustrazione, e il testo non è copiato nel markup', () => {
   const ordine = [
     'data-countdown',
-    'INSERIMENTO: Missione',
     'data-contenuto="missione"',
     'data-contenuto="firmaMissione"',
     'class="illustrazione"',

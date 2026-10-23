@@ -17,6 +17,21 @@ export function creaOrologio(search, adesso = () => Date.now()) {
   return () => simulato + (adesso() - partenza);
 }
 
+// Un tick al secondo, allineato al cambio di secondo dell'orologio così i numeri non saltano.
+// Il tick successivo si programma sempre, anche se questo lancia un errore: l'errore va a `segnala`
+// e il countdown non si ferma in silenzio.
+export function programmaTick(finestra, orologio, tick, segnala = console.error) {
+  const rinvia = () => finestra.setTimeout(() => {
+    try {
+      tick();
+    } catch (errore) {
+      segnala(errore);
+    }
+    rinvia();
+  }, 1000 - (orologio() % 1000));
+  rinvia();
+}
+
 export function avvia(documento = document, finestra = window) {
   // I testi della testata e della chiusura si scrivono una volta sola, qui: il tick non li ridisegna.
   validaTesti(contenuti);
@@ -35,9 +50,7 @@ export function avvia(documento = document, finestra = window) {
 
   const tick = () => countdown.aggiorna(computeView(contenuti, orologio()));
   tick();
-  // Un tick al secondo, allineato al cambio di secondo dell'orologio così i numeri non saltano.
-  const rinvia = () => finestra.setTimeout(() => { tick(); rinvia(); }, 1000 - (orologio() % 1000));
-  rinvia();
+  programmaTick(finestra, orologio, tick);
 }
 
 if (typeof document !== 'undefined') avvia();

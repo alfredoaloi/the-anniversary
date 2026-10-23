@@ -13,15 +13,15 @@ const ISO = /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{1,9}
 // Con `offsetObbligatorio` accetta solo date-ora con offset esplicito.
 export function istanteDaIso(testo, { offsetObbligatorio = false } = {}) {
   if (typeof testo !== 'string') return null;
-  const m = ISO.exec(testo);
-  if (!m) return null;
+  const lettura = ISO.exec(testo);
+  if (!lettura) return null;
 
-  const [anno, mese, giorno] = [m[1], m[2], m[3]].map(Number);
-  const ore = Number(m[4] ?? 0);
-  const minuti = Number(m[5] ?? 0);
-  const secondi = Number(m[6] ?? 0);
-  const millisecondi = Number(((m[7] ?? '') + '000').slice(0, 3));
-  const offset = m[8];
+  const [anno, mese, giorno] = [lettura[1], lettura[2], lettura[3]].map(Number);
+  const ore = Number(lettura[4] ?? 0);
+  const minuti = Number(lettura[5] ?? 0);
+  const secondi = Number(lettura[6] ?? 0);
+  const millisecondi = Number(((lettura[7] ?? '') + '000').slice(0, 3));
+  const offset = lettura[8];
 
   if (offsetObbligatorio && offset === undefined) return null;
   if (mese < 1 || mese > 12 || ore > 23 || minuti > 59 || secondi > 59) return null;
@@ -34,7 +34,7 @@ export function istanteDaIso(testo, { offsetObbligatorio = false } = {}) {
   if (offset === undefined) return istanteDaMuroRoma(muro);
   if (offset === 'Z') return muro;
   const segno = offset[0] === '-' ? -1 : 1;
-  const [oo, mm] = offset.slice(1).split(':').map(Number);
-  if (oo > 23 || mm > 59) return null;
-  return muro - segno * (oo * 60 + mm) * 60_000;
+  const [oreOffset, minutiOffset] = offset.slice(1).split(':').map(Number);
+  if (oreOffset > 23 || minutiOffset > 59) return null;
+  return muro - segno * (oreOffset * 60 + minutiOffset) * 60_000;
 }

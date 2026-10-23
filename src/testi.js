@@ -2,6 +2,8 @@
 // Il tick del countdown non li ridisegna. I testi stanno solo in src/contenuti.js: il markup ha
 // i segnaposto vuoti [data-contenuto="<chiave>"] e li riempie questo modulo.
 
+import { contenutiPresenti, segnaposti, testoNonVuoto } from './valida.js';
+
 // Le chiavi dei contenuti che questo modulo controlla e scrive.
 export const TESTI_TESTATA = ['sigillo', 'dataLine', 'titolo', 'rigaCountdown', 'chiusura'];
 
@@ -10,12 +12,9 @@ export const TESTI_MISSIONE = ['missione', 'firmaMissione'];
 
 // Lancia un Error in italiano se la configurazione non ha tutti i testi della testata, della Missione e della chiusura.
 export function validaTesti(config) {
-  if (config === null || typeof config !== 'object') {
-    throw new Error('Mancano i contenuti dell\'Invito.');
-  }
+  contenutiPresenti(config);
   for (const chiave of [...TESTI_TESTATA, ...TESTI_MISSIONE]) {
-    const valore = config[chiave];
-    if (typeof valore !== 'string' || valore.trim() === '') {
+    if (!testoNonVuoto(config[chiave])) {
       throw new Error(`Il testo «${chiave}» è vuoto o mancante in src/contenuti.js.`);
     }
   }
@@ -31,11 +30,7 @@ export function partiTitolo(titolo) {
 
 // Scrive i testi nei segnaposto della pagina. Solo textContent: i testi non sono mai markup.
 export function scriviTesti(documento, config) {
-  for (const e of documento.querySelectorAll('[data-contenuto]')) {
-    const chiave = e.dataset.contenuto;
-    if (!TESTI_TESTATA.includes(chiave) && !TESTI_MISSIONE.includes(chiave)) {
-      throw new Error(`Nel markup c'è un segnaposto sconosciuto: data-contenuto="${chiave}".`);
-    }
+  for (const [e, chiave] of segnaposti(documento, 'contenuto', [...TESTI_TESTATA, ...TESTI_MISSIONE])) {
     if (chiave === 'titolo') {
       e.replaceChildren(
         ...partiTitolo(config.titolo).map(({ testo, corsivo }) => {

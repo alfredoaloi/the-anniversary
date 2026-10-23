@@ -9,11 +9,10 @@
 
 import { istanteDaIso } from './iso.js';
 import { aggiungiGiorniRoma } from './roma.js';
+import { testoNonVuoto } from './valida.js';
 
 const SECONDI_GIORNO = 86_400;
 const SECONDI_ORA = 3_600;
-
-const èTestoNonVuoto = (valore) => typeof valore === 'string' && valore.trim() !== '';
 
 // Controlla la configurazione e ne ricava i due istanti che separano le fasi.
 function leggiConfig(config) {
@@ -37,10 +36,10 @@ function leggiConfig(config) {
     );
   }
 
-  if (!èTestoNonVuoto(config.messaggioGiorno)) {
+  if (!testoNonVuoto(config.messaggioGiorno)) {
     throw new Error('Il messaggio del Giorno del Romics è vuoto o mancante.');
   }
-  if (!èTestoNonVuoto(config.salutoChiusura)) {
+  if (!testoNonVuoto(config.salutoChiusura)) {
     throw new Error('Il saluto di chiusura è vuoto o mancante.');
   }
 
