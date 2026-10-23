@@ -77,7 +77,32 @@ test('il workflow pubblica solo i file statici, con le azioni ufficiali e i perm
     assert.match(yml, new RegExp(`cp -r[^\\n]*\\b${file}\\b`), `${file} non viene copiato nell'artifact`);
   }
   assert.doesNotMatch(yml, /cp [^\n]*\b(test|docs|package\.json|GLOSSARY\.md|\.github)\b/);
-  assert.match(yml, /permissions:[\s\S]*?pages:\s*write/);
-  assert.match(yml, /permissions:[\s\S]*?id-token:\s*write/);
   assert.match(yml, /concurrency:[\s\S]*?group:\s*pages/);
+});
+
+// Il testo di un blocco di primo livello (workflow) o di un job: dalla sua intestazione alla prossima
+// riga con la stessa indentazione.
+const blocco = (yml, intestazione, indent) => {
+  const righe = yml.split('\n');
+  const inizio = righe.findIndex((r) => r === `${' '.repeat(indent)}${intestazione}`);
+  assert.ok(inizio >= 0, `manca «${intestazione}»`);
+  const resto = righe.slice(inizio + 1);
+  const fine = resto.findIndex((r) => r.trim() !== '' && !r.trim().startsWith('#') && r.search(/\S/) <= indent);
+  return resto.slice(0, fine < 0 ? undefined : fine).join('\n');
+};
+
+test('i permessi minimi: sola lettura per tutto il workflow, scrittura su Pages solo nel job di deploy', () => {
+  const yml = read('.github/workflows/deploy.yml');
+  const dellWorkflow = blocco(yml, 'permissions:', 0);
+  assert.match(dellWorkflow, /contents:\s*read/);
+  assert.doesNotMatch(dellWorkflow, /pages:|id-token:/, 'pages e id-token non vanno a livello di workflow');
+  const dellDeploy = blocco(yml, 'deploy:', 2);
+  assert.match(dellDeploy, /permissions:[\s\S]*?pages:\s*write/);
+  assert.match(dellDeploy, /permissions:[\s\S]*?id-token:\s*write/);
+  assert.doesNotMatch(blocco(yml, 'test:', 2), /permissions:/, 'il job dei test non ha bisogno di permessi in più');
+});
+
+test('una pubblicazione già partita non viene mai annullata a metà da una più recente', () => {
+  const yml = read('.github/workflows/deploy.yml');
+  assert.match(blocco(yml, 'concurrency:', 0), /cancel-in-progress:\s*false/);
 });
