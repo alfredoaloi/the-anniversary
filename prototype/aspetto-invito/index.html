@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>PROTOTIPO · Aspetto dell'Invito</title>
+<!--
+  PROTOTIPO USA E GETTA. Domanda: "che aspetto ha l'Invito?" (ticket "Aspetto dell'Invito").
+  Tre varianti strutturalmente diverse sulla stessa pagina, scelte con ?variant=A|B|C
+  o con le frecce della barra in basso. Tutti i testi sono segnaposto: i veri li decidono
+  i ticket sui Preparativi e sulla Sarta. Nessuna risorsa esterna, solo font di sistema.
+  Giorno del Romics provvisorio (bassa certezza): 2027-09-30T10:00:00+02:00.
+-->
+<style>
+  :root { --bar-bg:#111; --bar-fg:#fff; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin:0; overflow-x:hidden; }
+  img, svg { max-width:100%; }
+  .variant { display:none; min-height:100vh; padding-bottom:90px; }
+  .variant.on { display:block; }
+  svg.coppia { display:block; }
+  .sr { position:absolute; left:-9999px; }
+
+  /* ---------- barra del prototipo ---------- */
+  #bar { position:fixed; left:50%; bottom:14px; transform:translateX(-50%); z-index:99;
+    display:flex; align-items:center; gap:10px; background:var(--bar-bg); color:var(--bar-fg);
+    border-radius:999px; padding:6px 10px; box-shadow:0 4px 18px rgba(0,0,0,.45);
+    font:600 14px/1 system-ui, sans-serif; max-width:calc(100vw - 24px); }
+  #bar button { all:unset; cursor:pointer; width:34px; height:34px; text-align:center; line-height:34px;
+    border-radius:50%; font-size:18px; }
+  #bar button:hover, #bar button:focus-visible { background:#333; outline:2px solid #fff; }
+  #bar span { min-width:0; text-align:center; padding:0 4px; }
+  #bar small { display:block; font-weight:400; font-size:11px; opacity:.75; margin-top:2px; }
+
+  /* ---------- popup della Sarta (segnaposto condiviso) ---------- */
+  dialog.sarta { max-width:min(440px, calc(100vw - 32px)); border:2px solid currentColor; padding:22px 24px;
+    background:var(--dlg-bg); color:var(--dlg-fg); font-family:Georgia, 'Palatino Linotype', serif; }
+  dialog.sarta::backdrop { background:rgba(0,0,0,.6); }
+  dialog.sarta h3 { margin:0 0 8px; font-weight:normal; letter-spacing:.06em; }
+  dialog.sarta p { line-height:1.5; margin:0 0 12px; }
+  dialog.sarta button { font:inherit; padding:8px 16px; cursor:pointer; background:transparent; color:inherit; border:1px solid currentColor; }
+  dialog.sarta button:focus-visible { outline:3px solid currentColor; outline-offset:2px; }
+
+  /* =====================================================
+     VARIANTE A · "Pergamena": una colonna, tema chiaro, manoscritto con sigillo
+     ===================================================== */
+  #vA { --paper:#efe3c8; --paper2:#e6d6b0; --ink:#2a1e14; --wine:#7a1f2b; --moss:#2f4a36; --line:#8b6b3d;
+        background:
+          radial-gradient(ellipse at 50% 0, #f6ecd6 0, transparent 70%),
+          repeating-linear-gradient(0deg, rgba(120,90,40,.05) 0 2px, transparent 2px 5px),
+          var(--paper);
+        color:var(--ink); font-family:Georgia, 'Palatino Linotype', 'Book Antiqua', serif; }
+  #vA .col { max-width:640px; margin:0 auto; padding:36px 20px 20px; text-align:center; }
+  #vA .sigillo { width:74px; height:74px; margin:0 auto 14px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #b3303f, var(--wine) 60%, #4d111a);
+    box-shadow:0 3px 8px rgba(60,10,15,.45), inset 0 0 0 5px rgba(255,255,255,.06);
+    display:grid; place-items:center; color:#f3d9b0; font-size:34px; font-style:italic; }
+  #vA .prologo { letter-spacing:.28em; text-transform:uppercase; font-size:.78rem; color:var(--moss); }
+  #vA h1 { font-weight:normal; font-size:clamp(2rem, 8vw, 3.1rem); line-height:1.1; margin:.35em 0 .2em; }
+  #vA h1 em { color:var(--wine); }
+  #vA .filetto { height:14px; margin:18px auto; max-width:360px;
+    background:linear-gradient(var(--line),var(--line)) center/100% 1px no-repeat; position:relative; }
+  #vA .filetto::after { content:"❦"; position:absolute; left:50%; top:50%; transform:translate(-50%,-52%);
+    background:var(--paper); padding:0 12px; color:var(--wine); }
+  #vA .cartiglio { margin:22px auto; display:inline-flex; gap:0; border:2px solid var(--line); outline:1px solid var(--line);
+    outline-offset:4px; background:var(--paper2); }
+  #vA .cartiglio div { padding:12px 14px 8px; min-width:68px; border-left:1px solid var(--line); }
+  #vA .cartiglio div:first-child { border-left:0; }
+  #vA .cartiglio b { display:block; font-size:2.1rem; font-weight:normal; font-variant-numeric:tabular-nums; }
+  #vA .cartiglio small { text-transform:uppercase; letter-spacing:.14em; font-size:.62rem; color:var(--moss); }
+  #vA .lettera { text-align:left; line-height:1.65; font-size:1.06rem; }
+  #vA .lettera p:first-child::first-letter { float:left; font-size:3.4rem; line-height:.85; padding:6px 8px 0 0; color:var(--wine); }
+  #vA .coppia-wrap { margin:26px auto 0; width:min(300px, 80%); color:var(--ink); --bg:var(--paper); }
+  #vA h2 { font-weight:normal; letter-spacing:.2em; text-transform:uppercase; font-size:1rem; color:var(--wine); margin:34px 0 10px; }
+  #vA ol { list-style:none; counter-reset:p; padding:0; margin:0; text-align:left; }
+  #vA li { counter-increment:p; position:relative; padding:12px 0 12px 46px; border-top:1px dotted var(--line); line-height:1.5; }
+  #vA li::before { content:counter(p, upper-roman); position:absolute; left:0; top:12px; width:34px; color:var(--wine); font-style:italic; font-size:1.15rem; }
+  #vA li i { color:var(--moss); display:block; }
+  #vA .apri { font:inherit; color:var(--wine); background:none; border:0; border-bottom:1px solid currentColor; padding:0; cursor:pointer; }
+  #vA .apri:focus-visible { outline:3px solid var(--moss); outline-offset:3px; }
+  #vA footer { margin-top:30px; font-style:italic; color:var(--moss); }
+  #vA ~ dialog, #vA dialog { --dlg-bg:var(--paper); --dlg-fg:var(--ink); }
+
+  /* =====================================================
+     VARIANTE B · "Notte nelle Highlands": tema scuro, scena a tutta larghezza, sentiero
+     ===================================================== */
+  #vB { --night:#0d171c; --night2:#16262b; --cream:#ece3cf; --gold:#e3b45e; --moss:#7fa58c; --ember:#e0764a;
+        background:var(--night); color:var(--cream); font-family:Georgia, 'Palatino Linotype', serif; }
+  #vB .scena { position:relative; height:min(78vh, 560px); min-height:420px; overflow:hidden;
+    background:linear-gradient(#0b1220 0, #1d2c36 55%, #2a3b37 100%); }
+  #vB .luna { position:absolute; top:34px; right:12%; width:64px; height:64px; border-radius:50%;
+    background:radial-gradient(circle at 40% 40%, #fff7e0, #e9d9a8 70%); box-shadow:0 0 40px 10px rgba(240,220,160,.28); }
+  @media (max-width:600px) { #vB .luna { top:118px; right:9%; width:48px; height:48px; } }
+  #vB .colli { position:absolute; left:0; right:0; bottom:0; width:100%; height:62%; }
+  #vB .coppia-wrap { position:absolute; left:50%; bottom:-6px; width:min(300px, 62vw); transform:translateX(-50%); color:#050a0d; --bg:#0d171c; }
+  #vB .titolo { position:absolute; left:0; right:0; top:28px; text-align:center; padding:0 16px; }
+  #vB .titolo small { letter-spacing:.34em; text-transform:uppercase; color:var(--moss); font-size:.72rem; }
+  #vB h1 { font-weight:normal; font-size:clamp(1.9rem, 7vw, 3rem); margin:.3em 0 0; text-shadow:0 2px 14px rgba(0,0,0,.6); }
+  #vB .brace { max-width:760px; margin:-38px auto 0; position:relative; z-index:2; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:0 16px; }
+  #vB .brace div { background:var(--night2); border:1px solid #33494f; border-top:3px solid var(--gold); padding:14px 6px 10px; text-align:center; border-radius:4px; }
+  #vB .brace b { display:block; font-size:clamp(1.6rem, 6vw, 2.4rem); font-weight:normal; color:var(--gold); font-variant-numeric:tabular-nums; }
+  #vB .brace small { font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; color:var(--moss); }
+  #vB .corpo { max-width:640px; margin:30px auto 0; padding:0 20px; }
+  #vB .corpo p { line-height:1.65; }
+  #vB h2 { font-weight:normal; color:var(--gold); letter-spacing:.2em; text-transform:uppercase; font-size:.95rem; margin:34px 0 14px; }
+  #vB .sentiero { list-style:none; margin:0; padding:0 0 0 30px; position:relative; }
+  #vB .sentiero::before { content:""; position:absolute; left:9px; top:6px; bottom:6px; border-left:2px dashed #3d5a55; }
+  #vB .sentiero li { position:relative; margin:0 0 20px; line-height:1.5; }
+  #vB .sentiero li::before { content:""; position:absolute; left:-27px; top:5px; width:12px; height:12px; border-radius:50%; background:var(--night); border:2px solid var(--gold); }
+  #vB .sentiero li.fine::before { background:var(--ember); border-color:var(--ember); box-shadow:0 0 12px var(--ember); }
+  #vB .sentiero b { display:block; font-weight:normal; color:var(--cream); font-size:1.08rem; }
+  #vB .sentiero i { color:var(--moss); }
+  #vB .apri { font:inherit; background:transparent; color:var(--gold); border:1px solid var(--gold); padding:6px 14px; cursor:pointer; border-radius:999px; margin-top:6px; }
+  #vB .apri:hover { background:rgba(227,180,94,.12); }
+  #vB .apri:focus-visible { outline:3px solid var(--cream); outline-offset:3px; }
+  #vB footer { text-align:center; margin:36px 0 0; color:var(--moss); font-style:italic; padding:0 16px; }
+  #vB dialog, #vB ~ dialog { --dlg-bg:var(--night2); --dlg-fg:var(--cream); }
+
+  /* =====================================================
+     VARIANTE C · "Proclama": avviso a stampa del '700, due colonne, bordo tartan
+     ===================================================== */
+  #vC { --paper:#f1ebd9; --ink:#1c1a17; --red:#8c1d1d; --green:#1f4d3a; --navy:#1b2a49;
+        background:var(--paper); color:var(--ink); font-family:'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif; }
+  #vC .tartan { height:26px;
+    background:
+      repeating-linear-gradient(90deg, rgba(31,77,58,.85) 0 18px, transparent 18px 36px, rgba(27,42,73,.85) 36px 44px, transparent 44px 80px),
+      repeating-linear-gradient(0deg, rgba(31,77,58,.55) 0 8px, rgba(140,29,29,.8) 8px 11px, rgba(27,42,73,.6) 11px 19px, transparent 19px 26px),
+      #c9b98e; }
+  #vC .foglio { max-width:960px; margin:0 auto; padding:26px 20px 10px; }
+  #vC .testata { text-align:center; border-bottom:4px double var(--ink); padding-bottom:16px; }
+  #vC .testata .ave { font-size:.74rem; letter-spacing:.3em; text-transform:uppercase; }
+  #vC h1 { font-variant:small-caps; font-weight:bold; letter-spacing:.06em; font-size:clamp(2.2rem, 9vw, 4.4rem); line-height:1; margin:.22em 0 .1em; }
+  #vC h1 em { color:var(--red); font-style:normal; }
+  #vC .sottot { font-style:italic; }
+  #vC .griglia { display:grid; grid-template-columns:1.15fr 1fr; gap:30px; margin-top:22px; }
+  @media (max-width:760px) { #vC .griglia { grid-template-columns:1fr; } }
+  #vC h2 { font-variant:small-caps; letter-spacing:.1em; font-size:1.2rem; margin:0 0 8px; border-bottom:1px solid var(--ink); padding-bottom:4px; }
+  #vC p { line-height:1.6; margin:0 0 12px; text-align:justify; hyphens:auto; }
+  #vC table.conto { width:100%; border-collapse:collapse; margin:4px 0 16px; text-align:center; }
+  #vC table.conto td { border:1px solid var(--ink); padding:10px 4px 6px; width:25%; }
+  #vC table.conto b { display:block; font-size:clamp(1.5rem, 6vw, 2.2rem); font-variant-numeric:tabular-nums; }
+  #vC table.conto small { font-variant:small-caps; letter-spacing:.1em; }
+  #vC .coppia-wrap { width:min(260px, 70%); margin:6px auto 12px; color:var(--ink); --bg:var(--paper); }
+  #vC table.inventario { width:100%; border-collapse:collapse; }
+  #vC table.inventario td { padding:9px 4px; border-bottom:1px dotted var(--ink); vertical-align:top; line-height:1.45; }
+  #vC table.inventario td:first-child { width:2.6em; color:var(--red); font-style:italic; }
+  #vC table.inventario i { color:var(--green); display:block; }
+  #vC .avviso { margin-top:22px; border:3px double var(--red); padding:14px 16px; text-align:center; }
+  #vC .avviso b { font-variant:small-caps; letter-spacing:.1em; color:var(--red); }
+  #vC .apri { font:inherit; background:var(--red); color:#fff; border:0; padding:8px 18px; margin-top:8px; cursor:pointer; }
+  #vC .apri:focus-visible { outline:3px solid var(--navy); outline-offset:3px; }
+  #vC footer { text-align:center; font-style:italic; margin:22px 0 10px; }
+  #vC dialog, #vC ~ dialog { --dlg-bg:var(--paper); --dlg-fg:var(--ink); }
+  #dlg-A { --dlg-bg:#efe3c8; --dlg-fg:#2a1e14; }
+  #dlg-B { --dlg-bg:#16262b; --dlg-fg:#ece3cf; }
+  #dlg-C { --dlg-bg:#f1ebd9; --dlg-fg:#1c1a17; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    #vB .luna { animation:respiro 6s ease-in-out infinite alternate; }
+    @keyframes respiro { to { box-shadow:0 0 56px 16px rgba(240,220,160,.38); } }
+  }
+</style>
+</head>
+<body>
+
+<!-- Coppia in controluce, SVG originale (nessuna immagine ufficiale), nessun volto.
+     Colore pieno = currentColor; le pieghe "scavano" con var(--bg). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="coppia" viewBox="0 0 300 350">
+      <g fill="currentColor" stroke="none">
+        <!-- LUI -->
+        <circle cx="96" cy="64" r="15"/>
+        <path d="M81 58c2-16 28-20 31-2-6-7-19-9-31 2z"/>
+        <path d="M90 78h12v10H90z"/>
+        <path d="M64 96c6-9 18-10 32-10s26 1 32 10l6 62-12 12H70l-12-12z"/>
+        <!-- plaid sulla spalla -->
+        <path d="M60 100l28-8 46 52-14 14z" opacity=".78"/>
+        <!-- kilt -->
+        <path d="M70 168h52l10 70H62z"/>
+        <!-- gambe -->
+        <path d="M70 238h22v84H72zM100 238h22l-2 84h-20z"/>
+        <path d="M64 322h30v10H58zM98 322h30l6 10H98z"/>
+        <!-- LEI -->
+        <circle cx="212" cy="76" r="13"/>
+        <circle cx="198" cy="70" r="8"/><circle cx="226" cy="70" r="8"/><circle cx="204" cy="62" r="8"/>
+        <circle cx="220" cy="62" r="8"/><circle cx="196" cy="84" r="7"/><circle cx="228" cy="84" r="7"/>
+        <path d="M206 88h12v10h-12z"/>
+        <path d="M192 100c8-6 32-6 40 0l4 64h-48z"/>
+        <path d="M184 164h56l48 170H134z"/>
+      </g>
+      <!-- pieghe e dettagli, in colore di fondo -->
+      <g fill="none" stroke="var(--bg)" stroke-width="1.6" stroke-linecap="round">
+        <path d="M82 170l-3 66M94 170l-1 68M106 170l2 68M118 170l5 66"/>
+        <path d="M200 176l-22 150M214 176l-6 156M228 176l10 156M240 176l32 150"/>
+        <path d="M204 104l8 50 8-50"/>
+      </g>
+      <!-- le mani che si cercano -->
+      <path d="M128 142c10 6 30 6 58 -4" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- =============== A · Pergamena =============== -->
+<main class="variant" id="vA" data-nome="Pergamena">
+  <div class="col">
+    <div class="sigillo" aria-hidden="true">R</div>
+    <div class="prologo">Anno Domini 2026 · 28 d'ottobre</div>
+    <h1>Un invito, <em>mo chridhe</em></h1>
+    <div class="filetto" aria-hidden="true"></div>
+    <p>Manca poco al Giorno del Romics.</p>
+    <div class="cartiglio" role="timer" aria-label="Tempo mancante al Giorno del Romics">
+      <div><b data-u="g">000</b><small>giorni</small></div>
+      <div><b data-u="o">00</b><small>ore</small></div>
+      <div><b data-u="m">00</b><small>minuti</small></div>
+      <div><b data-u="s">00</b><small>secondi</small></div>
+    </div>
+    <div class="lettera">
+      <p>Sassenach, ho una proposta da farvi nel giorno in cui due anime si sono legate: l'anno venturo, a Roma, ci presenteremo al Romics vestiti da Jamie e da Claire, nel giorno delle loro nozze.</p>
+    </div>
+    <div class="coppia-wrap"><svg class="coppia" viewBox="0 0 300 350" role="img" aria-label="Due figure in controluce: lui in kilt, lei in abito ampio"><use href="#coppia"/></svg></div>
+    <h2>Preparativi</h2>
+    <ol>
+      <li>I vestiti <i>Dinna fash, Sassenach: il kilt si compra, l'abito si fa fare.</i></li>
+      <li>Una sarta di fiducia <i>Abilissima, e mi trovo a conoscerla.</i> <button class="apri" data-dlg="dlg-A">Conoscete la sarta</button></li>
+      <li>I capelli e i trucchi <i>Segnaposto: i veri punti li decide un altro ticket.</i></li>
+    </ol>
+    <footer>Slàinte mhath!</footer>
+  </div>
+</main>
+
+<!-- =============== B · Notte nelle Highlands =============== -->
+<main class="variant" id="vB" data-nome="Notte nelle Highlands">
+  <div class="scena">
+    <div class="luna" aria-hidden="true"></div>
+    <svg class="colli" viewBox="0 0 800 300" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 140C120 60 220 120 330 80s250 40 470-20v240H0z" fill="#16262b"/>
+      <path d="M0 200C140 140 260 210 400 160s290 30 400-10v150H0z" fill="#0f1c20"/>
+    </svg>
+    <div class="titolo"><small>28 ottobre · 2026</small><h1>Si va al Romics, Sassenach</h1></div>
+    <div class="coppia-wrap"><svg class="coppia" viewBox="0 0 300 350" role="img" aria-label="Due figure in controluce, lui in kilt, lei in abito ampio"><use href="#coppia"/></svg></div>
+  </div>
+  <div class="brace" role="timer" aria-label="Tempo mancante al Giorno del Romics">
+    <div><b data-u="g">000</b><small>giorni</small></div>
+    <div><b data-u="o">00</b><small>ore</small></div>
+    <div><b data-u="m">00</b><small>minuti</small></div>
+    <div><b data-u="s">00</b><small>secondi</small></div>
+  </div>
+  <div class="corpo">
+    <p>Mo nighean donn, vi invito a vestirci come Jamie e Claire il giorno delle loro nozze, al Romics del prossimo anno.</p>
+    <h2>Il sentiero</h2>
+    <ul class="sentiero">
+      <li><b>I vestiti</b><i>Dinna fash: il kilt si compra, l'abito si fa fare.</i></li>
+      <li><b>La sarta</b><i>Una conoscenza preziosa.</i><br><button class="apri" data-dlg="dlg-B">Conoscete la sarta</button></li>
+      <li><b>Capelli e trucchi</b><i>Segnaposto.</i></li>
+      <li class="fine"><b>Il Giorno del Romics</b><i>La meta del sentiero.</i></li>
+    </ul>
+  </div>
+  <footer>Slàinte mhath!</footer>
+</main>
+
+<!-- =============== C · Proclama =============== -->
+<main class="variant" id="vC" data-nome="Proclama">
+  <div class="tartan" aria-hidden="true"></div>
+  <div class="foglio">
+    <div class="testata">
+      <div class="ave">Si fa noto &amp; si proclama · 28 d'ottobre 2026</div>
+      <h1>Jamie &amp; Claire <em>al Romics</em></h1>
+      <div class="sottot">Avviso a stampa per una sola Sassenach</div>
+    </div>
+    <div class="griglia">
+      <section>
+        <h2>Il tempo che resta</h2>
+        <table class="conto" role="timer" aria-label="Tempo mancante al Giorno del Romics"><tr>
+          <td><b data-u="g">000</b><small>giorni</small></td>
+          <td><b data-u="o">00</b><small>ore</small></td>
+          <td><b data-u="m">00</b><small>minuti</small></td>
+          <td><b data-u="s">00</b><small>secondi</small></td>
+        </tr></table>
+        <h2>La missione</h2>
+        <p>Si dà notizia che, nel Giorno del Romics, la coppia qui sottoscritta si presenterà vestita come Jamie e Claire il giorno delle loro nozze, mo chridhe.</p>
+        <div class="coppia-wrap"><svg class="coppia" viewBox="0 0 300 350" role="img" aria-label="Due figure in controluce, lui in kilt, lei in abito ampio"><use href="#coppia"/></svg></div>
+      </section>
+      <section>
+        <h2>Inventario dei preparativi</h2>
+        <table class="inventario">
+          <tr><td>I.</td><td>I vestiti<i>Dinna fash: il kilt si compra, l'abito si fa fare.</i></td></tr>
+          <tr><td>II.</td><td>La sarta<i>Segnaposto.</i></td></tr>
+          <tr><td>III.</td><td>Capelli e trucchi<i>Segnaposto.</i></td></tr>
+        </table>
+        <div class="avviso"><b>Sarta di fiducia</b><br>Lavori d'ago d'ogni sorta, su misura.<br><button class="apri" data-dlg="dlg-C">Conoscete la sarta</button></div>
+      </section>
+    </div>
+    <footer>Dato in Roma, nel 2026 · Slàinte mhath!</footer>
+  </div>
+  <div class="tartan" aria-hidden="true"></div>
+</main>
+
+<!-- popup della Sarta: SEGNAPOSTO, il vero testo lo decide il ticket "La Sarta" -->
+<dialog class="sarta" id="dlg-A"><h3>La Sarta</h3><p>[Segnaposto] Descrizione super professionale della Sarta.</p><form method="dialog"><button>Chiudi</button></form></dialog>
+<dialog class="sarta" id="dlg-B"><h3>La Sarta</h3><p>[Segnaposto] Descrizione super professionale della Sarta.</p><form method="dialog"><button>Chiudi</button></form></dialog>
+<dialog class="sarta" id="dlg-C"><h3>La Sarta</h3><p>[Segnaposto] Descrizione super professionale della Sarta.</p><form method="dialog"><button>Chiudi</button></form></dialog>
+
+<div id="bar" role="toolbar" aria-label="Prototipo: scegli la variante">
+  <button id="prev" aria-label="Variante precedente">‹</button>
+  <span id="label"></span>
+  <button id="next" aria-label="Variante successiva">›</button>
+</div>
+
+<script>
+  const GIORNO = new Date('2027-09-30T10:00:00+02:00'); // provvisorio
+  const nowParam = new URLSearchParams(location.search).get('now');
+  const t0 = Date.now(), base = nowParam && !isNaN(Date.parse(nowParam)) ? Date.parse(nowParam) : t0;
+  const adesso = () => base + (Date.now() - t0);
+
+  function tick() {
+    let s = Math.max(0, Math.floor((GIORNO - adesso()) / 1000));
+    const v = { g: String(Math.floor(s / 86400)).padStart(3, '0'),
+      o: String(Math.floor(s % 86400 / 3600)).padStart(2, '0'),
+      m: String(Math.floor(s % 3600 / 60)).padStart(2, '0'),
+      s: String(s % 60).padStart(2, '0') };
+    document.querySelectorAll('[data-u]').forEach(e => e.textContent = v[e.dataset.u]);
+  }
+  tick(); setInterval(tick, 1000);
+
+  const KEYS = ['A', 'B', 'C'];
+  let cur = (new URLSearchParams(location.search).get('variant') || 'A').toUpperCase();
+  if (!KEYS.includes(cur)) cur = 'A';
+  function show(k) {
+    cur = k;
+    KEYS.forEach(x => document.getElementById('v' + x).classList.toggle('on', x === k));
+    const nome = document.getElementById('v' + k).dataset.nome;
+    document.getElementById('label').innerHTML = k + ' · ' + nome + '<small>prototipo · ← →</small>';
+    const u = new URL(location.href); u.searchParams.set('variant', k); history.replaceState(null, '', u);
+    document.title = 'PROTOTIPO · ' + k + ' ' + nome;
+    scrollTo(0, 0);
+  }
+  const go = d => show(KEYS[(KEYS.indexOf(cur) + d + KEYS.length) % KEYS.length]);
+  document.getElementById('prev').onclick = () => go(-1);
+  document.getElementById('next').onclick = () => go(1);
+  addEventListener('keydown', e => {
+    if (e.target.closest && e.target.closest('input,textarea,[contenteditable]')) return;
+    if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1);
+  });
+  document.querySelectorAll('.apri').forEach(b => b.onclick = () => document.getElementById(b.dataset.dlg).showModal());
+  show(cur);
+</script>
+</body>
+</html>
