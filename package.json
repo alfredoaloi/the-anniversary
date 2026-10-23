@@ -1,0 +1,10 @@
+{
+  "name": "the-anniversary",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Un invito, mo chridhe: sito statico, nessuna dipendenza, nessun build step.",
+  "scripts": {
+    "test": "node --test"
+  }
+}
