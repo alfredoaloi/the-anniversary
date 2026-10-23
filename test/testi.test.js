@@ -10,6 +10,8 @@ const prova = {
   titolo: 'Inizio, *parte in corsivo*',
   rigaCountdown: 'Riga di prova.',
   chiusura: 'Chiusura di prova!',
+  missione: 'Lettera di prova.',
+  firmaMissione: '— Firma di prova',
 };
 
 test('testi validi non lanciano errori', () => {

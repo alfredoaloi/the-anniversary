@@ -5,12 +5,15 @@
 // Le chiavi dei contenuti che questo modulo controlla e scrive.
 export const TESTI_TESTATA = ['sigillo', 'dataLine', 'titolo', 'rigaCountdown', 'chiusura'];
 
-// Lancia un Error in italiano se la configurazione non ha tutti i testi della testata e della chiusura.
+// I testi della Missione (la lettera sotto il countdown) e la sua firma.
+export const TESTI_MISSIONE = ['missione', 'firmaMissione'];
+
+// Lancia un Error in italiano se la configurazione non ha tutti i testi della testata, della Missione e della chiusura.
 export function validaTesti(config) {
   if (config === null || typeof config !== 'object') {
     throw new Error('Mancano i contenuti dell\'Invito.');
   }
-  for (const chiave of TESTI_TESTATA) {
+  for (const chiave of [...TESTI_TESTATA, ...TESTI_MISSIONE]) {
     const valore = config[chiave];
     if (typeof valore !== 'string' || valore.trim() === '') {
       throw new Error(`Il testo «${chiave}» è vuoto o mancante in src/contenuti.js.`);
@@ -30,7 +33,7 @@ export function partiTitolo(titolo) {
 export function scriviTesti(documento, config) {
   for (const e of documento.querySelectorAll('[data-contenuto]')) {
     const chiave = e.dataset.contenuto;
-    if (!TESTI_TESTATA.includes(chiave)) {
+    if (!TESTI_TESTATA.includes(chiave) && !TESTI_MISSIONE.includes(chiave)) {
       throw new Error(`Nel markup c'è un segnaposto sconosciuto: data-contenuto="${chiave}".`);
     }
     if (chiave === 'titolo') {

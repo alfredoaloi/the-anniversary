@@ -31,6 +31,8 @@ Con `?now=` si simula l'istante corrente (solo date o date-ora ISO 8601; qualunq
 
 Il Giorno del Romics, il ritardo del saluto di chiusura e i loro testi stanno in `src/contenuti.js`. Lì stanno anche i testi della testata (sigillo, data, titolo, riga sopra il countdown) e la chiusura: `index.html` ha solo i segnaposto `data-contenuto="..."`, che `src/testi.js` riempie una volta sola all'avvio (nel titolo, la parte tra asterischi è in corsivo borgogna).
 
+Anche la Missione (la lettera sotto il countdown, `missione`, e la sua firma, `firmaMissione`) sta in `src/contenuti.js`: il capolettera in borgogna lo fa il foglio di stile con `::first-letter`, quindi il testo resta intero. La lettera è uguale in tutte le fasi del countdown e non contiene la data del Romics.
+
 ## Aspetto
 
 La tavolozza (carta, inchiostro, borgogna, verde muschio, cuoio) è definita come variabili su `:root` in `styles.css`, e solo lì: `test/contrasti.test.js` le legge e fallisce se una coppia scende sotto 4,5:1 (testo) o 3:1 (bordi e anello del focus). Per cambiare un colore si cambia la variabile e si lancia `npm test`.

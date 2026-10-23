@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { contenuti } from '../src/contenuti.js';
-import { TESTI_TESTATA } from '../src/testi.js';
+import { TESTI_MISSIONE, TESTI_TESTATA } from '../src/testi.js';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
@@ -77,7 +77,7 @@ const css = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
 
 test('la testata e la chiusura hanno i segnaposto per tutti i testi del file di dati, e nient\'altro', () => {
   const nelMarkup = [...html.matchAll(/\bdata-contenuto="([^"]+)"/g)].map((m) => m[1]).sort();
-  assert.deepEqual(nelMarkup, [...TESTI_TESTATA].sort());
+  assert.deepEqual(nelMarkup, [...TESTI_TESTATA, ...TESTI_MISSIONE].sort());
 });
 
 test('i testi della testata non sono copiati nel markup: stanno solo nel file di dati', () => {

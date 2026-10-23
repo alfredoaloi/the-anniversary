@@ -39,6 +39,12 @@
   </section>
 
   <!-- INSERIMENTO: Missione (ticket #14). Qui, tra il countdown e l'illustrazione. -->
+  <!-- La Missione: lettera e firma stanno in src/contenuti.js (data-contenuto), scritte una volta sola all'avvio.
+       Il capolettera è CSS (::first-letter): il testo resta intero. Uguale in tutte le fasi del countdown. -->
+  <section class="missione" aria-label="La Missione">
+    <p class="lettera" data-contenuto="missione"></p>
+    <p class="firma" data-contenuto="firmaMissione"></p>
+  </section>
 
   <!-- Illustrazione provvisoria: due sagome in controluce, nessun volto, nessuna immagine ufficiale.
        Colore pieno = currentColor (inchiostro); le pieghe «scavano» con il colore della carta. -->
