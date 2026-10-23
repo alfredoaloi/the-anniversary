@@ -2,6 +2,8 @@
 // I testi stanno solo in src/contenuti.js (chiave «preparativi»: un elenco di dieci {titolo, riga}).
 // Nessuna spunta, nessuna scadenza, nessuno stato: la pagina non memorizza nulla.
 
+import { contenutiPresenti, testoNonVuoto } from './valida.js';
+
 export const NUMERO_PREPARATIVI = 10;
 
 const ROMANI = [['X', 10], ['IX', 9], ['V', 5], ['IV', 4], ['I', 1]];
@@ -18,9 +20,7 @@ export function numeroRomano(n) {
 
 // Lancia un Error in italiano se i Preparativi non sono esattamente dieci o se un titolo o una riga è vuoto.
 export function validaPreparativi(config) {
-  if (config === null || typeof config !== 'object') {
-    throw new Error('Mancano i contenuti dell\'Invito.');
-  }
+  contenutiPresenti(config);
   const elenco = config.preparativi;
   if (!Array.isArray(elenco)) {
     throw new Error('I Preparativi mancano in src/contenuti.js: serve l\'elenco «preparativi».');
@@ -33,7 +33,7 @@ export function validaPreparativi(config) {
   elenco.forEach((p, i) => {
     for (const campo of ['titolo', 'riga']) {
       const valore = p !== null && typeof p === 'object' ? p[campo] : undefined;
-      if (typeof valore !== 'string' || valore.trim() === '') {
+      if (!testoNonVuoto(valore)) {
         throw new Error(
           `Nel Preparativo ${numeroRomano(i + 1)} il testo «${campo}» è vuoto o mancante in src/contenuti.js.`,
         );

@@ -5,6 +5,8 @@
 // L'unico ingresso al popup è il pulsante-link «Conoscete la sarta», aggiunto in fondo al corpo del
 // punto III dei Preparativi. Il popup ha un solo pulsante, «Chiudi»; si chiude anche con Esc (nativo).
 
+import { contenutiPresenti, segnaposti, testoNonVuoto } from './valida.js';
+
 // Le chiavi del popup in config.sarta.
 export const TESTI_SARTA = ['intestazione', 'nome', 'riga', 'testo', 'chiudi'];
 
@@ -12,11 +14,8 @@ const SELETTORE_PUNTO_III = '[data-preparativo="3"] .preparativo-corpo';
 
 // Lancia un Error in italiano se mancano il testo del link o uno dei testi del popup.
 export function validaSarta(config) {
-  if (config === null || typeof config !== 'object') {
-    throw new Error('Mancano i contenuti dell\'Invito.');
-  }
-  const vuoto = (valore) => typeof valore !== 'string' || valore.trim() === '';
-  if (vuoto(config.linkSarta)) {
+  contenutiPresenti(config);
+  if (!testoNonVuoto(config.linkSarta)) {
     throw new Error('Il testo «linkSarta» è vuoto o mancante in src/contenuti.js.');
   }
   const sarta = config.sarta;
@@ -24,7 +23,7 @@ export function validaSarta(config) {
     throw new Error('Il popup della Sarta manca in src/contenuti.js: serve la voce «sarta».');
   }
   for (const chiave of TESTI_SARTA) {
-    if (vuoto(sarta[chiave])) {
+    if (!testoNonVuoto(sarta[chiave])) {
       throw new Error(`Il testo «sarta.${chiave}» è vuoto o mancante in src/contenuti.js.`);
     }
   }
@@ -38,11 +37,7 @@ export function scriviSarta(documento, config) {
   if (!corpo) {
     throw new Error('Nel markup manca il punto III dei Preparativi: il link alla Sarta non ha dove stare.');
   }
-  for (const e of documento.querySelectorAll('[data-sarta]')) {
-    const chiave = e.dataset.sarta;
-    if (!TESTI_SARTA.includes(chiave)) {
-      throw new Error(`Nel markup c'è un segnaposto sconosciuto: data-sarta="${chiave}".`);
-    }
+  for (const [e, chiave] of segnaposti(documento, 'sarta', TESTI_SARTA)) {
     e.textContent = config.sarta[chiave];
   }
   let apri = corpo.querySelector('[data-apri-sarta]');
