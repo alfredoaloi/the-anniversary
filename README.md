@@ -21,6 +21,16 @@ python3 -m http.server 8000
 
 e poi `http://localhost:8000/`.
 
+## Provare le tre fasi del countdown
+
+Con `?now=` si simula l'istante corrente (solo date o date-ora ISO 8601; qualunque altro valore viene ignorato). Senza offset vale l'ora di Roma. Ad esempio, con il Giorno del Romics provvisorio:
+
+- `?now=2027-09-29T10:00:00`: attesa (manca un giorno)
+- `?now=2027-09-30T10:30:00`: il messaggio del Giorno del Romics
+- `?now=2027-10-05`: il saluto di chiusura
+
+Il Giorno del Romics, il ritardo del saluto di chiusura e i loro testi stanno in `src/contenuti.js`.
+
 ## Test
 
 ```

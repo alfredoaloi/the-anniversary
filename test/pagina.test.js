@@ -44,6 +44,25 @@ test('solo tema chiaro: color-scheme e theme-color sono chiari', () => {
   assert.ok(luminance > 0.7, `theme-color ${themeColor} non è chiaro`);
 });
 
+test('il countdown è un gruppo con nome accessibile statico e non una regione live', () => {
+  const gruppo = html.match(/<(\w+)\b[^>]*\brole="group"[^>]*>/i);
+  assert.ok(gruppo, 'manca il gruppo del countdown');
+  assert.match(gruppo[0], /\bdata-countdown\b/);
+  assert.match(gruppo[0], /\baria-label="[^"]{5,}"/);
+  // Niente che faccia annunciare ogni secondo ai lettori di schermo.
+  assert.doesNotMatch(html, /\baria-live\b/i);
+  assert.doesNotMatch(html, /\brole="(status|timer|alert|log|marquee)"/i);
+});
+
+test('il markup del countdown ha i punti di aggancio per i numeri, le etichette e il testo', () => {
+  for (const nome of ['giorni', 'ore', 'minuti', 'secondi']) {
+    assert.match(html, new RegExp(`data-valore="${nome}"`), `manca il valore ${nome}`);
+    assert.match(html, new RegExp(`data-etichetta="${nome}"`), `manca l'etichetta ${nome}`);
+  }
+  assert.match(html, /\bdata-numeri\b/);
+  assert.match(html, /\bdata-testo\b/);
+});
+
 test('il foglio di stile dichiara solo il tema chiaro, anche se il dispositivo è in modo scuro', () => {
   const css = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
   assert.match(css, /color-scheme:\s*light\b/);
