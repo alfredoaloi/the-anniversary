@@ -49,7 +49,7 @@ export function validaPreparativi(config) {
 export function scriviPreparativi(documento, config) {
   const lista = documento.querySelector('[data-preparativi]');
   if (!lista) throw new Error('Nel markup manca l\'elenco [data-preparativi] dei Preparativi.');
-  const testo = (tag, classe, contenuto) => {
+  const creaElemento = (tag, classe, contenuto) => {
     const e = documento.createElement(tag);
     e.className = classe;
     e.textContent = contenuto;
@@ -62,8 +62,8 @@ export function scriviPreparativi(documento, config) {
       li.dataset.preparativo = String(i + 1);
       const corpo = documento.createElement('div');
       corpo.className = 'preparativo-corpo';
-      corpo.append(testo('b', 'preparativo-titolo', titolo), testo('i', 'preparativo-riga', riga));
-      li.append(testo('span', 'preparativo-numero', numeroRomano(i + 1)), corpo);
+      corpo.append(creaElemento('b', 'preparativo-titolo', titolo), creaElemento('i', 'preparativo-riga', riga));
+      li.append(creaElemento('span', 'preparativo-numero', numeroRomano(i + 1)), corpo);
       return li;
     }),
   );

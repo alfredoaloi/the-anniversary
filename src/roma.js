@@ -7,6 +7,10 @@ const MS_MINUTO = 60_000;
 const MS_GIORNO = 86_400_000;
 const MS_ORA = 3_600_000;
 
+// Scarto di Roma da UTC, in minuti: +01:00 d'inverno (ora solare), +02:00 d'estate (ora legale).
+const OFFSET_INVERNO_MIN = 60;
+const OFFSET_ESTATE_MIN = 120;
+
 // 01:00 UTC dell'ultima domenica del mese (mese 0-11).
 function ultimaDomenica(anno, mese) {
   const ultimoDelMese = Date.UTC(anno, mese + 1, 0);
@@ -14,12 +18,12 @@ function ultimaDomenica(anno, mese) {
   return ultimoDelMese - giornoSettimana * MS_GIORNO + MS_ORA;
 }
 
-// Scarto di Roma da UTC, in minuti, all'istante `ms` (millisecondi dall'epoca): 120 o 60.
+// Scarto di Roma da UTC, in minuti, all'istante `ms` (millisecondi dall'epoca).
 export function offsetRoma(ms) {
   const anno = new Date(ms).getUTCFullYear();
   const inizioOraLegale = ultimaDomenica(anno, 2);
   const fineOraLegale = ultimaDomenica(anno, 9);
-  return ms >= inizioOraLegale && ms < fineOraLegale ? 120 : 60;
+  return ms >= inizioOraLegale && ms < fineOraLegale ? OFFSET_ESTATE_MIN : OFFSET_INVERNO_MIN;
 }
 
 // L'ora del muro di Roma all'istante `ms`, come millisecondi "UTC" dei suoi campi
@@ -32,11 +36,11 @@ export function muroRoma(ms) {
 // Un'ora che ricorre due volte (salto indietro) vale la prima; un'ora che non esiste
 // (salto in avanti) slitta in avanti, alla prima ora che esiste.
 export function istanteDaMuroRoma(muro) {
-  for (const offset of [120, 60]) {
+  for (const offset of [OFFSET_ESTATE_MIN, OFFSET_INVERNO_MIN]) {
     const istante = muro - offset * MS_MINUTO;
     if (offsetRoma(istante) === offset) return istante;
   }
-  return muro - 60 * MS_MINUTO;
+  return muro - OFFSET_INVERNO_MIN * MS_MINUTO;
 }
 
 // Lo stesso muro di Roma di `ms`, `giorni` giorni di calendario dopo.
