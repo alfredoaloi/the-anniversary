@@ -11,6 +11,16 @@ export const contenuti = {
   rigaCountdown: 'Il tempo che resta al Giorno del Romics.',
   chiusura: 'Slàinte mhath!',
 
+  // La Missione: la lettera sotto il countdown, un unico paragrafo, e la sua firma. Il capolettera lo
+  // fa il foglio di stile. Nessuna data precisa del Romics qui dentro: la dice il countdown.
+  missione:
+    'Sassenach, il 28 ottobre 2026, giorno del nostro anniversario, vi scrivo per farvi una proposta. ' +
+    'L\'autunno dell\'anno venturo, a Roma, ci sarà il Romics, e io vorrei andarci con voi: io nei panni di Jamie, ' +
+    'voi in quelli di Claire, nel giorno delle loro nozze. Sangue del mio sangue, osso delle mie ossa: ' +
+    'per quel giorno non manca che una cosa, il vostro sì. ' +
+    'Il resto, dinna fash, lo prepareremo insieme, punto per punto, qui sotto.',
+  firmaMissione: '— Il vostro Jamie',
+
   // Il Giorno del Romics: una sola data-ora ISO 8601 con l'offset di Roma esplicito
   // (+02:00 con l'ora legale, +01:00 con l'ora solare).
   // PROVVISORIO: 30 settembre 2027, ore 10:00. La data ufficiale del Romics d'autunno 2027 non è
