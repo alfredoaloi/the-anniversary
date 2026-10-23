@@ -38,6 +38,19 @@ export const contenuti = {
   // Cosa compare al posto dei numeri dalla chiusura in poi.
   salutoChiusura: 'Il Romics è passato, e che giornata, mo chridhe. Slàinte mhath!',
 
+  // La Sarta: il link in fondo al punto III dei Preparativi (l'unico ingresso al popup) e il popup.
+  // Nessun luogo, nessuna foto, nessuna riga che dica chi è davvero: lo riconosce chi la conosce.
+  linkSarta: 'Conoscete la sarta',
+  sarta: {
+    intestazione: 'Sartoria di costumi storici',
+    nome: 'Mistress Marie',
+    riga: 'dal 1938',
+    testo:
+      'Quasi novant\'anni d\'ago e filo, abiti d\'epoca su misura, ricami a mano in filo metallico, ' +
+      'plissettature a cartuccia e orli di kilt senza un millimetro fuori posto.',
+    chiudi: 'Chiudi',
+  },
+
   // I Preparativi: esattamente dieci punti, in ordine cronologico; la pagina li numera I–X.
   // Ognuno ha un titolo e una riga. Nessuna spunta, scadenza, data o stato.
   preparativi: [

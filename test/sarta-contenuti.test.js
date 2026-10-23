@@ -5,7 +5,9 @@ import { readFileSync } from 'node:fs';
 import { contenuti } from '../src/contenuti.js';
 import { TESTI_SARTA, validaSarta } from '../src/sarta.js';
 
-const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const htmlConCommenti = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+// Il markup vero e proprio: i commenti per chi modifica la pagina non contano.
+const html = htmlConCommenti.replace(/<!--[\s\S]*?-->/g, '');
 const css = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
 
 // Il popup, come da spec (sezione Texts), scritto a mano.
@@ -62,7 +64,7 @@ const dialog = html.match(/<dialog\b[^>]*>[\s\S]*?<\/dialog>/);
 test('la pagina ha un solo <dialog>, dopo il marcatore del popup e fuori dalla colonna principale', () => {
   assert.ok(dialog, 'manca il <dialog> della Sarta');
   assert.equal((html.match(/<dialog\b/g) ?? []).length, 1);
-  assert.ok(html.indexOf('INSERIMENTO: popup della Sarta') < html.indexOf(dialog[0]));
+  assert.ok(htmlConCommenti.indexOf('INSERIMENTO: popup della Sarta') < htmlConCommenti.indexOf(dialog[0]));
   assert.ok(html.indexOf('</main>') < html.indexOf(dialog[0]));
 });
 

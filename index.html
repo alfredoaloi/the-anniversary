@@ -96,6 +96,21 @@
 </main>
 
 <!-- INSERIMENTO: popup della Sarta (ticket #16). Qui, dopo <main>: un <dialog> nativo. -->
+<!-- Il popup della Sarta: finestra modale nativa (showModal), un solo pulsante, nessuna immagine.
+     I testi (data-sarta) stanno in src/contenuti.js: src/sarta.js li scrive una volta sola all'avvio.
+     L'unico ingresso è il link «Conoscete la sarta» in fondo al punto III dei Preparativi. -->
+<dialog class="sarta" data-sarta-dialog aria-labelledby="sarta-titolo">
+  <div class="sarta-carta">
+    <h2 class="sarta-titolo" id="sarta-titolo">
+      <span class="sarta-intestazione" data-sarta="intestazione"></span>
+      <span class="sarta-nome" data-sarta="nome"></span>
+    </h2>
+    <p class="sarta-riga" data-sarta="riga"></p>
+    <div class="filetto" aria-hidden="true"></div>
+    <p class="sarta-testo" data-sarta="testo"></p>
+    <p class="sarta-azioni"><button type="button" class="sarta-chiudi" data-sarta="chiudi"></button></p>
+  </div>
+</dialog>
 
 <script type="module" src="src/main.js"></script>
 </body>
