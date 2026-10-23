@@ -31,6 +31,8 @@
   --grana: rgba(120, 90, 40, 0.05);
   --ombra-sigillo: rgba(60, 10, 15, 0.45);
   --riflesso-sigillo: rgba(255, 255, 255, 0.06);
+  /* Velo scuro dietro il popup della Sarta (::backdrop): non è testo, quindi non ha coppie da controllare. */
+  --velo: rgba(42, 30, 20, 0.55);
 }
 
 * { box-sizing: border-box; }
@@ -235,6 +237,69 @@ h1 em { color: var(--wine); }
 .preparativo-titolo { display: block; font-weight: bold; }
 .preparativo-riga { display: block; color: var(--moss); }
 
+/* ---------- Link d'ingresso al popup della Sarta (un pulsante, ma ha l'aspetto di un link) ---------- */
+.link-sarta {
+  display: inline-block;
+  margin: .4em 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: var(--wine);
+  text-decoration: underline;
+  text-underline-offset: .2em;
+  cursor: pointer;
+}
+
+/* ---------- Popup della Sarta: <dialog> nativo sulla carta, nello schermo con scorrimento interno ---------- */
+dialog.sarta {
+  width: min(500px, calc(100vw - 24px));
+  max-width: none;
+  max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: inherit;
+  text-align: center;
+  box-shadow: 0 10px 40px var(--ombra-sigillo);
+}
+dialog.sarta::backdrop { background: var(--velo); }
+.sarta-carta {
+  margin: 8px;
+  padding: 20px 22px 18px;
+  border: 2px solid var(--line);
+  outline: 1px solid var(--line);
+  outline-offset: 3px;
+}
+.sarta-titolo { margin: 0; font-weight: normal; font-size: 1.55rem; line-height: 1.2; letter-spacing: .04em; }
+.sarta-intestazione {
+  display: block;
+  margin-bottom: 6px;
+  font-size: .72rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--moss);
+}
+.sarta-nome { display: block; }
+.sarta-riga { margin: 2px 0 12px; font-style: italic; color: var(--moss); }
+dialog.sarta .filetto { max-width: 260px; margin: 12px auto; }
+.sarta-testo { margin: 0 0 16px; line-height: 1.55; text-align: left; }
+.sarta-azioni { margin: 0; }
+.sarta-chiudi {
+  font: inherit;
+  padding: 8px 22px;
+  border: 1px solid var(--wine);
+  background: var(--wine);
+  color: var(--paper-hi);
+  cursor: pointer;
+}
+
 /* ---------- Chiusura ---------- */
 .chiusura {
   margin: 30px 0 0;
@@ -246,6 +311,8 @@ h1 em { color: var(--wine); }
 @media (prefers-reduced-motion: no-preference) {
   .colonna > * { animation: apparire .7s ease-out both; }
   @keyframes apparire { from { opacity: 0; transform: translateY(6px); } }
+  dialog.sarta[open] .sarta-carta { animation: apri-sarta .28s ease-out; }
+  @keyframes apri-sarta { from { opacity: 0; transform: translateY(10px) scale(.98); } }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

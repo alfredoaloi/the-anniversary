@@ -46,6 +46,7 @@ const COPPIE = [
   ['focus', 'paper', 'bordo'],   // anello del focus
   ['focus', 'paper-2', 'bordo'],
   ['focus', 'paper-hi', 'bordo'],
+  ['paper-hi', 'wine', 'testo'], // «Chiudi» del popup della Sarta: carta chiara su fondo borgogna
   ['seal-text', 'seal-hi', 'testo'], // monogramma sul sigillo, dove la cera è più chiara
   ['seal-text', 'seal-lo', 'testo'],
   ['seal-text', 'wine', 'testo'],
