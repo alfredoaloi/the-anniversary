@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { contenuti } from '../src/contenuti.js';
 import { computeView } from '../src/view.js';
+import { TESTI_TESTATA, validaTesti } from '../src/testi.js';
 
 const at = (iso) => Date.parse(iso);
 const sorgente = readFileSync(new URL('../src/contenuti.js', import.meta.url), 'utf8');
@@ -66,6 +67,22 @@ test('le fasi arrivano agli istanti giusti con i contenuti reali', () => {
 test('nessun testo pubblico nomina la nonna: la Sarta resta un\'allusione', () => {
   assert.doesNotMatch(sorgente, /nonna/i);
   for (const testo of stringhe(contenuti)) assert.doesNotMatch(testo, /nonna/i);
+});
+
+test('i testi della testata e della chiusura sono quelli della spec e non sono vuoti', () => {
+  assert.equal(contenuti.sigillo, 'J·C');
+  assert.equal(contenuti.dataLine, 'Anno Domini 2026 · 28 d\'ottobre');
+  assert.equal(contenuti.titolo, 'Un invito, *mo chridhe*');
+  assert.equal(contenuti.rigaCountdown, 'Il tempo che resta al Giorno del Romics.');
+  assert.equal(contenuti.chiusura, 'Slàinte mhath!');
+  for (const chiave of TESTI_TESTATA) {
+    assert.equal(typeof contenuti[chiave], 'string', `${chiave} non è un testo`);
+    assert.notEqual(contenuti[chiave].trim(), '', `${chiave} è vuoto`);
+  }
+});
+
+test('i contenuti reali passano il controllo dei testi della testata', () => {
+  assert.doesNotThrow(() => validaTesti(contenuti));
 });
 
 test('nessun segnaposto (SEGNAPOSTO) rimasto nei contenuti', () => {

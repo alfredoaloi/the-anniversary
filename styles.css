@@ -1,10 +1,36 @@
-/* Solo tema chiaro: nessuna variante scura, nemmeno se il dispositivo è in modo scuro.
-   Solo font di sistema: nessuna richiesta a domini esterni. */
+/* Aspetto «Pergamena» (variante A del prototipo): una colonna, carta, inchiostro scuro, accenti
+   borgogna e verde muschio, filetti color cuoio.
+
+   Solo tema chiaro: nessuna variante scura, nemmeno se il dispositivo è in modo scuro.
+   Solo font di sistema: nessuna richiesta a domini esterni.
+
+   La tavolozza sta tutta qui, in :root. Fuori da :root i colori si scrivono solo con var(--...):
+   test/contrasti.test.js legge questi esadecimali e fallisce se una coppia scende sotto soglia
+   (testo 4,5:1; bordi e anello del focus 3:1). Per cambiare un colore si cambia qui, e il test
+   dice se regge. */
 :root {
   color-scheme: light;
+
+  /* Carta: il foglio, il fondo del cartiglio, il riflesso in alto. */
   --paper: #efe3c8;
+  --paper-2: #e6d6b0;
+  --paper-hi: #f6ecd6;
+  /* Inchiostro e accenti usati anche come testo. */
   --ink: #2a1e14;
   --wine: #7a1f2b;
+  --moss: #2f4a36;
+  /* Filetti e cornici (cuoio) e anello del focus: non testo, quindi 3:1. */
+  --line: #8b6b3d;
+  --focus: #2f4a36;
+  /* Sigillo di ceralacca: i due estremi del gradiente e il colore del monogramma. */
+  --seal-hi: #b3303f;
+  --seal-lo: #4d111a;
+  --seal-text: #f6e6c4;
+
+  /* Trasparenze di ombre e grana della carta (non sono coppie testo/sfondo). */
+  --grana: rgba(120, 90, 40, 0.05);
+  --ombra-sigillo: rgba(60, 10, 15, 0.45);
+  --riflesso-sigillo: rgba(255, 255, 255, 0.06);
 }
 
 * { box-sizing: border-box; }
@@ -13,35 +39,163 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background: var(--paper);
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 0, var(--paper-hi) 0, transparent 70%),
+    repeating-linear-gradient(0deg, var(--grana) 0 2px, transparent 2px 5px),
+    var(--paper);
   color: var(--ink);
   font-family: Georgia, 'Palatino Linotype', 'Book Antiqua', serif;
+  overflow-wrap: anywhere;
 }
-
-main {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 36px 20px 20px;
-  text-align: center;
-}
-
-h1 { font-weight: normal; }
-h1 em { color: var(--wine); }
 
 [hidden] { display: none !important; }
 
-/* Countdown: solo l'essenziale. L'aspetto (cartiglio, filetti) arriva con il ticket dello stile. */
+/* Focus visibile su tutto ciò che si può raggiungere con la tastiera (link, pulsanti...). */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* La colonna: tutto il contenuto della pagina. */
+.colonna {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 36px 20px 40px;
+  text-align: center;
+}
+
+img, svg { max-width: 100%; }
+
+/* ---------- Testata ---------- */
+.sigillo {
+  width: 74px;
+  height: 74px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--seal-hi), var(--wine) 60%, var(--seal-lo));
+  box-shadow: 0 3px 8px var(--ombra-sigillo), inset 0 0 0 5px var(--riflesso-sigillo);
+  display: grid;
+  place-items: center;
+  color: var(--seal-text);
+  font-size: 1.6rem;
+  font-style: italic;
+  letter-spacing: .04em;
+}
+
+.data {
+  margin: 0;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  font-size: .78rem;
+  color: var(--moss);
+}
+
+h1 {
+  font-weight: normal;
+  font-size: clamp(2rem, 8vw, 3.1rem);
+  line-height: 1.1;
+  margin: .35em 0 .2em;
+}
+h1 em { color: var(--wine); }
+
+/* Filetto con fregio al centro. */
+.filetto {
+  height: 14px;
+  margin: 18px auto;
+  max-width: 360px;
+  background: linear-gradient(var(--line), var(--line)) center / 100% 1px no-repeat;
+  position: relative;
+}
+.filetto::after {
+  content: "❦";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -52%);
+  background: var(--paper);
+  padding: 0 12px;
+  color: var(--wine);
+}
+
+.riga-countdown { margin: 0 0 4px; }
+
+/* ---------- Countdown nel cartiglio ----------
+   Il cartiglio è la cornice (.countdown): contiene i numeri o, nelle fasi giorno e dopo, il messaggio. */
+.countdown {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 22px auto;
+  border: 2px solid var(--line);
+  outline: 1px solid var(--line);
+  outline-offset: 4px;
+  background: var(--paper-2);
+}
 .countdown-numeri {
+  /* Le parole dei numeri non si spezzano mai: il cartiglio si adatta, non va a capo dentro «giorni». */
+  overflow-wrap: normal;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 20px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
+.countdown-numeri li {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 12px 8px 8px;
+  border-left: 1px solid var(--line);
+}
+.countdown-numeri li:first-child { border-left: 0; }
 .countdown-valore {
-  font-size: 1.75rem;
+  display: block;
+  font-size: 2.1rem;
   font-variant-numeric: tabular-nums;
 }
-.countdown-testo { font-size: 1.25rem; }
+.countdown-etichetta {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .68rem;
+  color: var(--moss);
+}
+@media (min-width: 480px) {
+  .countdown-numeri li { flex: 1 0 84px; padding: 12px 14px 8px; }
+  .countdown-etichetta { letter-spacing: .14em; }
+}
+.countdown-testo {
+  margin: 0;
+  padding: 18px 22px;
+  max-width: 30em;
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ---------- Illustrazione (provvisoria: due sagome in controluce, nessun volto) ---------- */
+.illustrazione {
+  margin: 26px auto 0;
+  width: min(300px, 80%);
+  color: var(--ink);
+}
+.illustrazione svg { display: block; width: 100%; height: auto; }
+.illustrazione .pieghe { stroke: var(--paper); }
+
+/* ---------- Chiusura ---------- */
+.chiusura {
+  margin: 30px 0 0;
+  font-style: italic;
+  color: var(--moss);
+}
+
+/* ---------- Animazioni: solo se non è chiesto di ridurle ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .colonna > * { animation: apparire .7s ease-out both; }
+  @keyframes apparire { from { opacity: 0; transform: translateY(6px); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
