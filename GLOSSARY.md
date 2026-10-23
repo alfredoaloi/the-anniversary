@@ -16,6 +16,10 @@ _Avoid_: Data dell'evento, scadenza
 L'elenco di punti che portano la coppia al Giorno del Romics (vestiti, sarta, capelli, trucchi...). Sono solo da leggere: senza spunte, senza scadenze e senza stato.
 _Avoid_: Checklist, to-do, lista della spesa
 
+**Missione**:
+La lettera dell'Invito che propone il cosplay di coppia e chiede il sì. È datata per esteso e firmata da Jamie, quindi vale anche quando viene letta molto dopo il 28 ottobre.
+_Avoid_: Introduzione, presentazione
+
 **Sarta**:
 Il personaggio del popup, "Mistress Marie, dal 1938", presentato con una descrizione ultra professionale. Nei testi pubblici non si dice mai chi è davvero: lo riconosce chi la conosce.
 _Avoid_: Nonna (nei testi pubblici), atelier
