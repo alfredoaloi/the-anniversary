@@ -1,5 +1,4 @@
-// Seam 2: il file dei contenuti reale (src/contenuti.js), per ciò che esiste finora.
-// I ticket successivi aggiungono qui i controlli sui loro contenuti (Preparativi, Sarta...).
+// Seam 2: il file dei contenuti reale (src/contenuti.js): testata, Giorno del Romics e chiusura.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

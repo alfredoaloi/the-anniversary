@@ -89,19 +89,17 @@ test('i testi della testata non sono copiati nel markup: stanno solo nel file di
   }
 });
 
-test('le parti della pagina sono nell\'ordine della spec, con i punti di inserimento per i ticket successivi', () => {
+test('le parti della pagina sono nell\'ordine della spec: testata, countdown, Missione, illustrazione, Preparativi, chiusura, popup dopo <main>', () => {
   const ordine = [
-    'data-contenuto="sigillo"',
-    'data-contenuto="dataLine"',
-    'data-contenuto="titolo"',
-    'class="filetto"',
-    'data-contenuto="rigaCountdown"',
-    'data-countdown',
-    'INSERIMENTO: Missione',
-    'class="illustrazione"',
-    'INSERIMENTO: Preparativi',
-    'data-contenuto="chiusura"',
-    'INSERIMENTO: popup della Sarta',
+    '<header class="testata"',
+    '<p class="riga-countdown"',
+    '<section class="countdown"',
+    '<section class="missione"',
+    '<figure class="illustrazione"',
+    '<section class="preparativi"',
+    '<footer class="chiusura"',
+    '</main>',
+    '<dialog class="sarta"',
   ];
   let da = 0;
   for (const pezzo of ordine) {

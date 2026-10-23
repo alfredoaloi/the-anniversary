@@ -38,7 +38,6 @@
     <p class="countdown-testo" data-testo hidden></p>
   </section>
 
-  <!-- INSERIMENTO: Missione (ticket #14). Qui, tra il countdown e l'illustrazione. -->
   <!-- La Missione: lettera e firma stanno in src/contenuti.js (data-contenuto), scritte una volta sola all'avvio.
        Il capolettera è CSS (::first-letter): il testo resta intero. Uguale in tutte le fasi del countdown. -->
   <section class="missione" aria-label="La Missione">
@@ -82,7 +81,6 @@
     </svg>
   </figure>
 
-  <!-- INSERIMENTO: Preparativi (ticket #15). Qui, tra l'illustrazione e la chiusura. -->
   <!-- I dieci punti (titolo e riga) stanno in src/contenuti.js: src/preparativi.js riempie l'elenco una
        volta sola all'avvio. Ogni punto è <li class="preparativo" data-preparativo="N"> con il numero
        romano (.preparativo-numero) e un .preparativo-corpo (titolo e riga): il link del punto III
@@ -95,7 +93,6 @@
   <footer class="chiusura" data-contenuto="chiusura"></footer>
 </main>
 
-<!-- INSERIMENTO: popup della Sarta (ticket #16). Qui, dopo <main>: un <dialog> nativo. -->
 <!-- Il popup della Sarta: finestra modale nativa (showModal), un solo pulsante, nessuna immagine.
      I testi (data-sarta) stanno in src/contenuti.js: src/sarta.js li scrive una volta sola all'avvio.
      L'unico ingresso è il link «Conoscete la sarta» in fondo al punto III dei Preparativi. -->

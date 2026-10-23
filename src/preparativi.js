@@ -44,8 +44,8 @@ export function validaPreparativi(config) {
 
 // Scrive i Preparativi nell'elenco ordinato [data-preparativi] della pagina. Solo textContent.
 // Ogni punto è un <li class="preparativo" data-preparativo="N"> con il numero romano come testo vero
-// e un corpo (.preparativo-corpo) che contiene titolo e riga: il ticket sulla Sarta aggiunge il suo
-// link in fondo al corpo del punto 3.
+// e un corpo (.preparativo-corpo) che contiene titolo e riga: scriviSarta (src/sarta.js) aggiunge il
+// suo link in fondo al corpo del punto 3.
 export function scriviPreparativi(documento, config) {
   const lista = documento.querySelector('[data-preparativi]');
   if (!lista) throw new Error('Nel markup manca l\'elenco [data-preparativi] dei Preparativi.');
