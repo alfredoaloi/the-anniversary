@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>PROTOTIPO · La Sarta</title>
+<!--
+  PROTOTIPO USA E GETTA. Domanda: "come funziona e cosa dice il popup della Sarta?" (ticket "La Sarta").
+  La pagina ospite è la variante A (Pergamena) già scelta. Tre popup strutturalmente diversi,
+  scelti con ?variant=A|B|C o con le frecce; ogni cambio riapre il popup.
+  TUTTI I FATTI SONO INVENTATI (nome d'arte, anni, servizi, referenze): vanno sostituiti dall'autore.
+  Giorno del Romics provvisorio: 2027-09-30T10:00:00+02:00.
+-->
+<style>
+  :root { --bar-bg:#111; --bar-fg:#fff; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin:0; overflow-x:hidden; }
+  img, svg { max-width:100%; }
+  .variant { display:none; min-height:100vh; padding-bottom:90px; }
+  .variant.on { display:block; }
+  svg.coppia { display:block; }
+  .sr { position:absolute; left:-9999px; }
+
+  /* ---------- barra del prototipo ---------- */
+  #bar { position:fixed; left:50%; bottom:14px; transform:translateX(-50%); z-index:99;
+    display:flex; align-items:center; gap:10px; background:var(--bar-bg); color:var(--bar-fg);
+    border-radius:999px; padding:6px 10px; box-shadow:0 4px 18px rgba(0,0,0,.45);
+    font:600 14px/1 system-ui, sans-serif; max-width:calc(100vw - 24px); }
+  #bar button { all:unset; cursor:pointer; width:34px; height:34px; text-align:center; line-height:34px;
+    border-radius:50%; font-size:18px; }
+  #bar button:hover, #bar button:focus-visible { background:#333; outline:2px solid #fff; }
+  #bar span { min-width:0; text-align:center; padding:0 4px; }
+  #bar small { display:block; font-weight:400; font-size:11px; opacity:.75; margin-top:2px; }
+
+  /* ---------- popup della Sarta (segnaposto condiviso) ---------- */
+  dialog.sarta { max-width:min(440px, calc(100vw - 32px)); border:2px solid currentColor; padding:22px 24px;
+    background:var(--dlg-bg); color:var(--dlg-fg); font-family:Georgia, 'Palatino Linotype', serif; }
+  dialog.sarta::backdrop { background:rgba(0,0,0,.6); }
+  dialog.sarta h3 { margin:0 0 8px; font-weight:normal; letter-spacing:.06em; }
+  dialog.sarta p { line-height:1.5; margin:0 0 12px; }
+  dialog.sarta button { font:inherit; padding:8px 16px; cursor:pointer; background:transparent; color:inherit; border:1px solid currentColor; }
+  dialog.sarta button:focus-visible { outline:3px solid currentColor; outline-offset:2px; }
+
+  /* =====================================================
+     VARIANTE A · "Pergamena": una colonna, tema chiaro, manoscritto con sigillo
+     ===================================================== */
+  #vA { --paper:#efe3c8; --paper2:#e6d6b0; --ink:#2a1e14; --wine:#7a1f2b; --moss:#2f4a36; --line:#8b6b3d;
+        background:
+          radial-gradient(ellipse at 50% 0, #f6ecd6 0, transparent 70%),
+          repeating-linear-gradient(0deg, rgba(120,90,40,.05) 0 2px, transparent 2px 5px),
+          var(--paper);
+        color:var(--ink); font-family:Georgia, 'Palatino Linotype', 'Book Antiqua', serif; }
+  #vA .col { max-width:640px; margin:0 auto; padding:36px 20px 20px; text-align:center; }
+  #vA .sigillo { width:74px; height:74px; margin:0 auto 14px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #b3303f, var(--wine) 60%, #4d111a);
+    box-shadow:0 3px 8px rgba(60,10,15,.45), inset 0 0 0 5px rgba(255,255,255,.06);
+    display:grid; place-items:center; color:#f3d9b0; font-size:34px; font-style:italic; }
+  #vA .prologo { letter-spacing:.28em; text-transform:uppercase; font-size:.78rem; color:var(--moss); }
+  #vA h1 { font-weight:normal; font-size:clamp(2rem, 8vw, 3.1rem); line-height:1.1; margin:.35em 0 .2em; }
+  #vA h1 em { color:var(--wine); }
+  #vA .filetto { height:14px; margin:18px auto; max-width:360px;
+    background:linear-gradient(var(--line),var(--line)) center/100% 1px no-repeat; position:relative; }
+  #vA .filetto::after { content:"❦"; position:absolute; left:50%; top:50%; transform:translate(-50%,-52%);
+    background:var(--paper); padding:0 12px; color:var(--wine); }
+  #vA .cartiglio { margin:22px auto; display:inline-flex; gap:0; border:2px solid var(--line); outline:1px solid var(--line);
+    outline-offset:4px; background:var(--paper2); }
+  #vA .cartiglio div { padding:12px 14px 8px; min-width:68px; border-left:1px solid var(--line); }
+  #vA .cartiglio div:first-child { border-left:0; }
+  #vA .cartiglio b { display:block; font-size:2.1rem; font-weight:normal; font-variant-numeric:tabular-nums; }
+  #vA .cartiglio small { text-transform:uppercase; letter-spacing:.14em; font-size:.62rem; color:var(--moss); }
+  #vA .lettera { text-align:left; line-height:1.65; font-size:1.06rem; }
+  #vA .lettera p:first-child::first-letter { float:left; font-size:3.4rem; line-height:.85; padding:6px 8px 0 0; color:var(--wine); }
+  #vA .coppia-wrap { margin:26px auto 0; width:min(300px, 80%); color:var(--ink); --bg:var(--paper); }
+  #vA h2 { font-weight:normal; letter-spacing:.2em; text-transform:uppercase; font-size:1rem; color:var(--wine); margin:34px 0 10px; }
+  #vA ol { list-style:none; counter-reset:p; padding:0; margin:0; text-align:left; }
+  #vA li { counter-increment:p; position:relative; padding:12px 0 12px 46px; border-top:1px dotted var(--line); line-height:1.5; }
+  #vA li::before { content:counter(p, upper-roman); position:absolute; left:0; top:12px; width:34px; color:var(--wine); font-style:italic; font-size:1.15rem; }
+  #vA li i { color:var(--moss); display:block; }
+  #vA .apri { font:inherit; color:var(--wine); background:none; border:0; border-bottom:1px solid currentColor; padding:0; cursor:pointer; }
+  #vA .apri:focus-visible { outline:3px solid var(--moss); outline-offset:3px; }
+  #vA footer { margin-top:30px; font-style:italic; color:var(--moss); }
+  #vA ~ dialog, #vA dialog { --dlg-bg:var(--paper); --dlg-fg:var(--ink); }
+
+  /* ---------- popup della Sarta, sulla carta della variante A ---------- */
+  dialog.sarta { --paper:#efe3c8; --paper2:#e6d6b0; --ink:#2a1e14; --wine:#7a1f2b; --moss:#2f4a36; --line:#8b6b3d;
+    --dlg-bg:var(--paper); --dlg-fg:var(--ink); width:min(500px, calc(100vw - 24px)); max-height:calc(100vh - 100px); overflow:auto;
+    padding:0; border:0; box-shadow:0 10px 40px rgba(0,0,0,.45); background:var(--paper); color:var(--ink);
+    font-family:Georgia, 'Palatino Linotype', 'Book Antiqua', serif; }
+  dialog.sarta .fg { margin:8px; padding:20px 22px 18px; border:2px solid var(--line); outline:1px solid var(--line); outline-offset:3px;
+    background:linear-gradient(180deg, #f3e9d1, var(--paper)); }
+  dialog.sarta h3 { margin:0; font-weight:normal; text-align:center; font-size:1.55rem; letter-spacing:.04em; }
+  dialog.sarta h3 small { display:block; font-size:.7rem; letter-spacing:.26em; text-transform:uppercase; color:var(--moss); margin-bottom:4px; }
+  dialog.sarta .sotto { text-align:center; font-style:italic; color:var(--moss); margin:2px 0 12px; }
+  dialog.sarta .filetto { height:14px; margin:12px auto; max-width:260px; background:linear-gradient(var(--line),var(--line)) center/100% 1px no-repeat; position:relative; }
+  dialog.sarta .filetto::after { content:"❦"; position:absolute; left:50%; top:50%; transform:translate(-50%,-52%); background:#f0e5cb; padding:0 10px; color:var(--wine); }
+  dialog.sarta p { margin:0 0 10px; line-height:1.55; }
+  dialog.sarta ul.serv { margin:6px 0 10px; padding-left:1.1em; line-height:1.5; }
+  dialog.sarta ul.serv li::marker { color:var(--wine); }
+  dialog.sarta .ps { font-style:italic; color:var(--wine); border-top:1px dotted var(--line); padding-top:10px; margin-top:12px; font-size:1.08rem; }
+  dialog.sarta .chip { display:inline-block; border:1px solid var(--line); background:var(--paper2); padding:3px 9px; margin:0 5px 6px 0; font-size:.86rem; border-radius:2px; }
+  dialog.sarta blockquote { margin:0 0 10px; padding:8px 12px; border-left:3px solid var(--line); background:rgba(139,107,61,.08); line-height:1.5; }
+  dialog.sarta blockquote cite { display:block; font-size:.85rem; color:var(--moss); margin-top:3px; }
+  dialog.sarta .stelle { color:var(--wine); letter-spacing:.12em; font-size:.9rem; }
+  dialog.sarta h4 { margin:12px 0 6px; font-weight:normal; text-transform:uppercase; letter-spacing:.2em; font-size:.78rem; color:var(--wine); }
+  dialog.sarta .azioni { display:flex; justify-content:center; gap:10px; margin-top:12px; flex-wrap:wrap; }
+  dialog.sarta button { font:inherit; padding:8px 18px; cursor:pointer; background:transparent; color:var(--ink); border:1px solid var(--ink); }
+  dialog.sarta button.primario { background:var(--wine); color:#fff; border-color:var(--wine); }
+  dialog.sarta button:focus-visible { outline:3px solid var(--moss); outline-offset:2px; }
+  dialog.sarta .svelo { text-align:center; margin-top:10px; min-height:3.4em; }
+  dialog.sarta .svelo .nome { font-size:1.5rem; font-style:italic; color:var(--wine); display:block; }
+  dialog.sarta .svelo .nome small { display:block; font-size:.9rem; color:var(--moss); }
+  @media (prefers-reduced-motion: no-preference) {
+    dialog.sarta[open] .fg { animation:apri .28s ease-out; }
+    dialog.sarta .svelo .nome { animation:svela .7s ease-out; }
+    @keyframes apri { from { opacity:0; transform:translateY(10px) scale(.98); } }
+    @keyframes svela { from { opacity:0; letter-spacing:.3em; } }
+  }
+</style>
+</head>
+<body>
+
+<!-- Coppia in controluce, SVG originale (nessuna immagine ufficiale), nessun volto.
+     Colore pieno = currentColor; le pieghe "scavano" con var(--bg). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="coppia" viewBox="0 0 300 350">
+      <g fill="currentColor" stroke="none">
+        <!-- LUI -->
+        <circle cx="96" cy="64" r="15"/>
+        <path d="M81 58c2-16 28-20 31-2-6-7-19-9-31 2z"/>
+        <path d="M90 78h12v10H90z"/>
+        <path d="M64 96c6-9 18-10 32-10s26 1 32 10l6 62-12 12H70l-12-12z"/>
+        <!-- plaid sulla spalla -->
+        <path d="M60 100l28-8 46 52-14 14z" opacity=".78"/>
+        <!-- kilt -->
+        <path d="M70 168h52l10 70H62z"/>
+        <!-- gambe -->
+        <path d="M70 238h22v84H72zM100 238h22l-2 84h-20z"/>
+        <path d="M64 322h30v10H58zM98 322h30l6 10H98z"/>
+        <!-- LEI -->
+        <circle cx="212" cy="76" r="13"/>
+        <circle cx="198" cy="70" r="8"/><circle cx="226" cy="70" r="8"/><circle cx="204" cy="62" r="8"/>
+        <circle cx="220" cy="62" r="8"/><circle cx="196" cy="84" r="7"/><circle cx="228" cy="84" r="7"/>
+        <path d="M206 88h12v10h-12z"/>
+        <path d="M192 100c8-6 32-6 40 0l4 64h-48z"/>
+        <path d="M184 164h56l48 170H134z"/>
+      </g>
+      <!-- pieghe e dettagli, in colore di fondo -->
+      <g fill="none" stroke="var(--bg)" stroke-width="1.6" stroke-linecap="round">
+        <path d="M82 170l-3 66M94 170l-1 68M106 170l2 68M118 170l5 66"/>
+        <path d="M200 176l-22 150M214 176l-6 156M228 176l10 156M240 176l32 150"/>
+        <path d="M204 104l8 50 8-50"/>
+      </g>
+      <!-- le mani che si cercano -->
+      <path d="M128 142c10 6 30 6 58 -4" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- =============== A · Pergamena =============== -->
+<main class="variant on" id="vA">
+  <div class="col">
+    <div class="sigillo" aria-hidden="true">R</div>
+    <div class="prologo">Anno Domini 2026 · 28 d'ottobre</div>
+    <h1>Un invito, <em>mo chridhe</em></h1>
+    <div class="filetto" aria-hidden="true"></div>
+    <p>Manca poco al Giorno del Romics.</p>
+    <div class="cartiglio" role="timer" aria-label="Tempo mancante al Giorno del Romics">
+      <div><b data-u="g">000</b><small>giorni</small></div>
+      <div><b data-u="o">00</b><small>ore</small></div>
+      <div><b data-u="m">00</b><small>minuti</small></div>
+      <div><b data-u="s">00</b><small>secondi</small></div>
+    </div>
+    <div class="lettera">
+      <p>Sassenach, ho una proposta da farvi nel giorno in cui due anime si sono legate: l'anno venturo, a Roma, ci presenteremo al Romics vestiti da Jamie e da Claire, nel giorno delle loro nozze.</p>
+    </div>
+    <div class="coppia-wrap"><svg class="coppia" viewBox="0 0 300 350" role="img" aria-label="Due figure in controluce: lui in kilt, lei in abito ampio"><use href="#coppia"/></svg></div>
+    <h2>Preparativi</h2>
+    <ol>
+      <li>I vestiti <i>Dinna fash, Sassenach: il kilt si compra, l'abito si fa fare.</i></li>
+      <li>Una sarta di fiducia <i>Abilissima, e mi trovo a conoscerla.</i> <button class="apri" id="apri">Conoscete la sarta</button></li>
+      <li>I capelli e i trucchi <i>Segnaposto: i veri punti li decide un altro ticket.</i></li>
+    </ol>
+    <footer>Slàinte mhath!</footer>
+  </div>
+</main>
+
+<dialog class="sarta" id="dlg" aria-labelledby="dlg-t"><div class="fg" id="dlg-fg"></div></dialog>
+
+<div id="bar" role="toolbar" aria-label="Prototipo: scegli la variante del popup">
+  <button id="prev" aria-label="Variante precedente">‹</button>
+  <span id="label"></span>
+  <button id="next" aria-label="Variante successiva">›</button>
+</div>
+
+<script>
+  const GIORNO = new Date('2027-09-30T10:00:00+02:00'); // provvisorio
+  const nowParam = new URLSearchParams(location.search).get('now');
+  const t0 = Date.now(), base = nowParam && !isNaN(Date.parse(nowParam)) ? Date.parse(nowParam) : t0;
+  const adesso = () => base + (Date.now() - t0);
+  function tick() {
+    let s = Math.max(0, Math.floor((GIORNO - adesso()) / 1000));
+    const v = { g: String(Math.floor(s / 86400)).padStart(3, '0'), o: String(Math.floor(s % 86400 / 3600)).padStart(2, '0'),
+      m: String(Math.floor(s % 3600 / 60)).padStart(2, '0'), s: String(s % 60).padStart(2, '0') };
+    document.querySelectorAll('[data-u]').forEach(e => e.textContent = v[e.dataset.u]);
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ---- contenuti SEGNAPOSTO (tutti i fatti sono inventati) ----
+  const NOME = "Madama Aurelia Ago d'Argento";
+  const TESTA = `<h3 id="dlg-t"><small>Sartoria di costumi storici</small>${NOME}</h3>
+    <div class="sotto">Roma · dal 1971</div><div class="filetto" aria-hidden="true"></div>`;
+  const CHIUDI = `<div class="azioni"><button class="primario" data-chiudi>Chiudi</button></div>`;
+
+  const VARIANTI = {
+    A: { nome: 'Scheda e postscriptum', html: () => `${TESTA}
+      <p>Oltre cinquant'anni d'ago e filo al servizio di chi non si accontenta del costume: pretende l'abito. Ogni capo è tagliato, imbastito e rifinito a mano, con una cura per la tenuta e per la caduta del tessuto oggi rarissima.</p>
+      <h4>Specialità</h4>
+      <ul class="serv"><li>Abiti d'epoca del Settecento, su misura</li><li>Stomacher, sottogonne e gonne plissettate a cartuccia</li><li>Ricami a mano in filo metallico</li><li>Kilt e plaid: orli, pieghe e prove</li></ul>
+      <p class="ps">P.S. Dinna fash, Sassenach: è mia nonna, e non ha mai sbagliato un orlo in vita sua.</p>${CHIUDI}` },
+    B: { nome: 'Referenze', html: () => `${TESTA}
+      <p>Specializzata in costumeria storica di alta fascia. Preventivi su misura, prove in sede.</p>
+      <div>${['Stomacher e busti','Plissettatura a cartuccia','Ricami in filo metallico','Kilt: orli e prove'].map(x=>`<span class="chip">${x}</span>`).join('')}</div>
+      <h4>Referenze</h4>
+      <blockquote><span class="stelle" aria-label="5 stelle su 5">★★★★★</span><br>«Un lavoro di una precisione mai vista.»<cite>— Una dama di Edimburgo</cite></blockquote>
+      <blockquote><span class="stelle" aria-label="5 stelle su 5">★★★★★</span><br>«Mi ha rimesso a posto un orlo con un'unica occhiata.»<cite>— Un montanaro, cliente abituale</cite></blockquote>
+      <blockquote><span class="stelle" aria-label="5 stelle su 5">★★★★★</span><br>«Prima di prendermi le misure mi dà sempre da mangiare. E poi sono suo nipote.»<cite>— Il cliente più affezionato</cite></blockquote>${CHIUDI}` },
+    C: { nome: 'Rivelazione al tocco', html: () => `${TESTA}
+      <p>Cinquant'anni d'ago e filo, abiti d'epoca su misura, ricami a mano in filo metallico, plissettature a cartuccia e orli di kilt senza un millimetro fuori posto. Una sola sarta, e un solo segreto.</p>
+      <div class="svelo" id="svelo" aria-live="polite"></div>
+      <div class="azioni"><button class="primario" id="svela">Chi c'è dietro l'ago?</button><button data-chiudi>Chiudi</button></div>` }
+  };
+
+  const dlg = document.getElementById('dlg'), fg = document.getElementById('dlg-fg'), bar = document.getElementById('bar');
+  const KEYS = Object.keys(VARIANTI);
+  let cur = (new URLSearchParams(location.search).get('variant') || 'A').toUpperCase();
+  if (!KEYS.includes(cur)) cur = 'A';
+
+  function apri() {
+    fg.innerHTML = VARIANTI[cur].html();
+    fg.querySelectorAll('[data-chiudi]').forEach(b => b.onclick = () => dlg.close());
+    const sv = document.getElementById('svela');
+    if (sv) sv.onclick = () => { document.getElementById('svelo').innerHTML = '<span class="nome">Mia nonna.<small>Garantita dal nipote.</small></span>'; sv.disabled = true; sv.textContent = 'Svelato'; };
+    if (!dlg.open) dlg.showModal();
+    dlg.appendChild(bar);               // la barra deve stare nello strato superiore, sopra il popup
+    dlg.scrollTop = 0;
+  }
+  dlg.addEventListener('close', () => document.body.appendChild(bar));
+
+  function show(k) {
+    cur = k;
+    document.getElementById('label').innerHTML = k + ' · ' + VARIANTI[k].nome + '<small>prototipo · ← →</small>';
+    const u = new URL(location.href); u.searchParams.set('variant', k); history.replaceState(null, '', u);
+    document.title = 'PROTOTIPO · Sarta ' + k + ' ' + VARIANTI[k].nome;
+    apri();
+  }
+  const go = d => show(KEYS[(KEYS.indexOf(cur) + d + KEYS.length) % KEYS.length]);
+  document.getElementById('prev').onclick = () => go(-1);
+  document.getElementById('next').onclick = () => go(1);
+  addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1);
+  });
+  document.getElementById('apri').onclick = apri;
+  show(cur);
+</script>
+</body>
+</html>
