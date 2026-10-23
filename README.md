@@ -29,7 +29,11 @@ Con `?now=` si simula l'istante corrente (solo date o date-ora ISO 8601; qualunq
 - `?now=2027-09-30T10:30:00`: il messaggio del Giorno del Romics
 - `?now=2027-10-05`: il saluto di chiusura
 
-Il Giorno del Romics, il ritardo del saluto di chiusura e i loro testi stanno in `src/contenuti.js`.
+Il Giorno del Romics, il ritardo del saluto di chiusura e i loro testi stanno in `src/contenuti.js`. Lì stanno anche i testi della testata (sigillo, data, titolo, riga sopra il countdown) e la chiusura: `index.html` ha solo i segnaposto `data-contenuto="..."`, che `src/testi.js` riempie una volta sola all'avvio (nel titolo, la parte tra asterischi è in corsivo borgogna).
+
+## Aspetto
+
+La tavolozza (carta, inchiostro, borgogna, verde muschio, cuoio) è definita come variabili su `:root` in `styles.css`, e solo lì: `test/contrasti.test.js` le legge e fallisce se una coppia scende sotto 4,5:1 (testo) o 3:1 (bordi e anello del focus). Per cambiare un colore si cambia la variabile e si lancia `npm test`.
 
 ## Test
 

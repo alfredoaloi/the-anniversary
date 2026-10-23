@@ -2,6 +2,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { contenuti } from '../src/contenuti.js';
+import { TESTI_TESTATA } from '../src/testi.js';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
@@ -67,4 +69,68 @@ test('il foglio di stile dichiara solo il tema chiaro, anche se il dispositivo �
   const css = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
   assert.match(css, /color-scheme:\s*light\b/);
   assert.doesNotMatch(css, /prefers-color-scheme/);
+});
+
+// ---- Aspetto: struttura della pagina (variante A, «Pergamena») e accessibilità ----
+
+const css = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
+
+test('la testata e la chiusura hanno i segnaposto per tutti i testi del file di dati, e nient\'altro', () => {
+  const nelMarkup = [...html.matchAll(/\bdata-contenuto="([^"]+)"/g)].map((m) => m[1]).sort();
+  assert.deepEqual(nelMarkup, [...TESTI_TESTATA].sort());
+});
+
+test('i testi della testata non sono copiati nel markup: stanno solo nel file di dati', () => {
+  for (const chiave of TESTI_TESTATA) {
+    const testo = contenuti[chiave].replaceAll('*', '');
+    // Il titolo compare in <title> e nell'anteprima del link, che sono metadati e non il testo in pagina.
+    const corpo = html.replace(/<head>[\s\S]*<\/head>/, '');
+    assert.ok(!corpo.includes(testo), `«${testo}» è scritto anche nel corpo di index.html`);
+  }
+});
+
+test('le parti della pagina sono nell\'ordine della spec, con i punti di inserimento per i ticket successivi', () => {
+  const ordine = [
+    'data-contenuto="sigillo"',
+    'data-contenuto="dataLine"',
+    'data-contenuto="titolo"',
+    'class="filetto"',
+    'data-contenuto="rigaCountdown"',
+    'data-countdown',
+    'INSERIMENTO: Missione',
+    'class="illustrazione"',
+    'INSERIMENTO: Preparativi',
+    'data-contenuto="chiusura"',
+    'INSERIMENTO: popup della Sarta',
+  ];
+  let da = 0;
+  for (const pezzo of ordine) {
+    const i = html.indexOf(pezzo, da);
+    assert.ok(i >= 0, `«${pezzo}» manca o è fuori posto`);
+    da = i;
+  }
+});
+
+test('l\'illustrazione è un SVG inline con un nome accessibile e senza volti', () => {
+  const fig = html.match(/<figure class="illustrazione"[\s\S]*?<\/figure>/);
+  assert.ok(fig, 'manca la figura dell\'illustrazione');
+  assert.match(fig[0], /<svg\b[^>]*\brole="img"[^>]*\baria-label="[^"]{10,}"/);
+  assert.doesNotMatch(fig[0], /<(img|image)\b/i);
+});
+
+test('prefers-reduced-motion disattiva animazioni e transizioni', () => {
+  const blocco = css.match(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{([\s\S]*?)\n\}/);
+  assert.ok(blocco, 'manca @media (prefers-reduced-motion: reduce)');
+  assert.match(blocco[1], /animation:\s*none/);
+  assert.match(blocco[1], /transition:\s*none/);
+});
+
+test('gli elementi interattivi hanno il focus visibile', () => {
+  assert.match(css, /:focus-visible\s*\{[^}]*outline:[^;}]*var\(--focus\)/);
+});
+
+test('niente scroll orizzontale: nessuna larghezza fissa oltre la colonna e il testo va a capo', () => {
+  assert.match(css, /box-sizing:\s*border-box/);
+  assert.match(css, /overflow-wrap:\s*(anywhere|break-word)/);
+  assert.doesNotMatch(css, /(^|[\s;{])width:\s*\d{3,}px/, 'larghezza fissa in px di 100 o più');
 });
