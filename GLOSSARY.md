@@ -17,5 +17,5 @@ L'elenco di punti che portano la coppia al Giorno del Romics (vestiti, sarta, ca
 _Avoid_: Checklist, to-do, lista della spesa
 
 **Sarta**:
-Il personaggio del popup, presentato con una descrizione ultra professionale. Nei testi pubblici non si dice mai chi è davvero.
+Il personaggio del popup, "Mistress Marie, dal 1938", presentato con una descrizione ultra professionale. Nei testi pubblici non si dice mai chi è davvero: lo riconosce chi la conosce.
 _Avoid_: Nonna (nei testi pubblici), atelier
