@@ -13,7 +13,7 @@ L'istante a cui punta il countdown: l'apertura del primo giorno del Romics dell'
 _Avoid_: Data dell'evento, scadenza
 
 **Preparativi**:
-L'elenco di punti che portano la coppia al Giorno del Romics (vestiti, sarta, capelli, trucchi...). Sono solo da leggere, senza spunte e senza stato.
+L'elenco di punti che portano la coppia al Giorno del Romics (vestiti, sarta, capelli, trucchi...). Sono solo da leggere: senza spunte, senza scadenze e senza stato.
 _Avoid_: Checklist, to-do, lista della spesa
 
 **Sarta**:
