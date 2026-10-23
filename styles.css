@@ -171,6 +171,32 @@ h1 em { color: var(--wine); }
   line-height: 1.5;
 }
 
+/* ---------- Missione: la lettera con il capolettera e la firma ---------- */
+.missione {
+  margin: 28px auto 0;
+  max-width: 34em;
+  text-align: left;
+}
+.lettera {
+  margin: 0;
+  font-size: 1.06rem;
+  line-height: 1.65;
+}
+/* Il capolettera è la prima lettera del testo: nessun elemento in più, il testo resta intero. */
+.lettera::first-letter {
+  float: left;
+  font-size: 3.4rem;
+  line-height: .85;
+  padding: 6px 8px 0 0;
+  color: var(--wine);
+}
+.firma {
+  margin: 14px 0 0;
+  text-align: right;
+  font-style: italic;
+  color: var(--wine);
+}
+
 /* ---------- Illustrazione (provvisoria: due sagome in controluce, nessun volto) ---------- */
 .illustrazione {
   margin: 26px auto 0;

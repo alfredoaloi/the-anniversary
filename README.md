@@ -31,6 +31,8 @@ Con `?now=` si simula l'istante corrente (solo date o date-ora ISO 8601; qualunq
 
 Il Giorno del Romics, il ritardo del saluto di chiusura e i loro testi stanno in `src/contenuti.js`. Lì stanno anche i testi della testata (sigillo, data, titolo, riga sopra il countdown) e la chiusura: `index.html` ha solo i segnaposto `data-contenuto="..."`, che `src/testi.js` riempie una volta sola all'avvio (nel titolo, la parte tra asterischi è in corsivo borgogna).
 
+Anche la Missione (la lettera sotto il countdown, `missione`, e la sua firma, `firmaMissione`) sta in `src/contenuti.js`: il capolettera in borgogna lo fa il foglio di stile con `::first-letter`, quindi il testo resta intero. La lettera è uguale in tutte le fasi del countdown e non contiene la data del Romics.
+
 ## Preparativi
 
 I dieci Preparativi (titolo e riga ciascuno, in ordine cronologico) stanno in `src/contenuti.js`, chiave `preparativi`. `src/preparativi.js` li controlla (esattamente dieci, nessun titolo o riga vuoto: altrimenti errore chiaro in italiano) e li scrive una volta sola nell'elenco ordinato `[data-preparativi]` di `index.html`, con i numeri romani I–X. Nessuna spunta, scadenza o stato: la pagina non memorizza nulla.
