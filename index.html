@@ -15,6 +15,18 @@
 <body>
 <main>
   <h1>Un invito, <em>mo chridhe</em></h1>
+
+  <!-- Area del countdown: l'unica parte della pagina che cambia dopo il caricamento (src/main.js).
+       Nome accessibile statico, nessuna regione live: i lettori di schermo non annunciano ogni secondo. -->
+  <section class="countdown" role="group" aria-label="Il tempo che resta al Giorno del Romics" data-countdown>
+    <ul class="countdown-numeri" data-numeri>
+      <li><span class="countdown-valore" data-valore="giorni">–</span> <span class="countdown-etichetta" data-etichetta="giorni">giorni</span></li>
+      <li><span class="countdown-valore" data-valore="ore">–</span> <span class="countdown-etichetta" data-etichetta="ore">ore</span></li>
+      <li><span class="countdown-valore" data-valore="minuti">–</span> <span class="countdown-etichetta" data-etichetta="minuti">minuti</span></li>
+      <li><span class="countdown-valore" data-valore="secondi">–</span> <span class="countdown-etichetta" data-etichetta="secondi">secondi</span></li>
+    </ul>
+    <p class="countdown-testo" data-testo hidden></p>
+  </section>
 </main>
 <script type="module" src="src/main.js"></script>
 </body>
