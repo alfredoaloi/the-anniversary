@@ -34,3 +34,18 @@ test('la descrizione dell\'anteprima è «Una lettera per voi.» e non rivela al
 test('chiede ai motori di ricerca di non indicizzare la pagina', () => {
   assert.equal(metaContent('name', 'robots'), 'noindex, nofollow');
 });
+
+test('solo tema chiaro: color-scheme e theme-color sono chiari', () => {
+  assert.equal(metaContent('name', 'color-scheme'), 'light');
+  const themeColor = metaContent('name', 'theme-color');
+  assert.match(themeColor, /^#[0-9a-f]{6}$/i);
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(themeColor.slice(i, i + 2), 16));
+  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+  assert.ok(luminance > 0.7, `theme-color ${themeColor} non è chiaro`);
+});
+
+test('il foglio di stile dichiara solo il tema chiaro, anche se il dispositivo è in modo scuro', () => {
+  const css = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
+  assert.match(css, /color-scheme:\s*light\b/);
+  assert.doesNotMatch(css, /prefers-color-scheme/);
+});

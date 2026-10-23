@@ -1,0 +1,29 @@
+/* Solo tema chiaro: nessuna variante scura, nemmeno se il dispositivo è in modo scuro.
+   Solo font di sistema: nessuna richiesta a domini esterni. */
+:root {
+  color-scheme: light;
+  --paper: #efe3c8;
+  --ink: #2a1e14;
+  --wine: #7a1f2b;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, 'Palatino Linotype', 'Book Antiqua', serif;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 36px 20px 20px;
+  text-align: center;
+}
+
+h1 { font-weight: normal; }
+h1 em { color: var(--wine); }
