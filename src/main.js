@@ -5,6 +5,7 @@
 import { contenuti } from './contenuti.js';
 import { creaCountdown } from './countdown.js';
 import { parseNow } from './now.js';
+import { scriviTesti, validaTesti } from './testi.js';
 import { computeView } from './view.js';
 
 // L'orologio: l'ora vera, oppure — con ?now= valido — l'istante simulato che avanza di un secondo al secondo.
@@ -16,6 +17,10 @@ export function creaOrologio(search, adesso = () => Date.now()) {
 }
 
 export function avvia(documento = document, finestra = window) {
+  // I testi della testata e della chiusura si scrivono una volta sola, qui: il tick non li ridisegna.
+  validaTesti(contenuti);
+  scriviTesti(documento, contenuti);
+
   const radice = documento.querySelector('[data-countdown]');
   const countdown = creaCountdown(radice);
   const orologio = creaOrologio(finestra.location.search);

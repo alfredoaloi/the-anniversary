@@ -4,6 +4,13 @@
 // Tutti i contenuti dell'Invito stanno in questo file; per cambiarli non serve toccare altro.
 
 export const contenuti = {
+  // Testata e chiusura della pagina. Nel titolo, la parte tra asterischi va in corsivo borgogna.
+  sigillo: 'J·C',
+  dataLine: 'Anno Domini 2026 · 28 d\'ottobre',
+  titolo: 'Un invito, *mo chridhe*',
+  rigaCountdown: 'Il tempo che resta al Giorno del Romics.',
+  chiusura: 'Slàinte mhath!',
+
   // Il Giorno del Romics: una sola data-ora ISO 8601 con l'offset di Roma esplicito
   // (+02:00 con l'ora legale, +01:00 con l'ora solare).
   // PROVVISORIO: 30 settembre 2027, ore 10:00. La data ufficiale del Romics d'autunno 2027 non è
