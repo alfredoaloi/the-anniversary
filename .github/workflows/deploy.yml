@@ -1,0 +1,51 @@
+name: Deploy
+
+# A ogni push sul ramo principale: prima i test, poi (solo se passano) la pubblicazione
+# dei soli file statici su GitHub Pages. Nessuna dipendenza, nessun build step.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Una sola pubblicazione alla volta; una più recente aspetta in coda, senza interrompere
+# quella già partita (una pubblicazione su Pages non va annullata a metà).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      # Solo i file statici: niente test, docs, package.json, workflow...
+      - name: Raccogli i file statici
+        run: |
+          mkdir _site
+          cp -r index.html styles.css src _site/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

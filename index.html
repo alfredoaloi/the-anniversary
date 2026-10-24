@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Un invito, mo chridhe</title>
+<meta name="description" content="Una lettera per voi.">
+<meta property="og:title" content="Un invito, mo chridhe">
+<meta property="og:description" content="Una lettera per voi.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#efe3c8">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="colonna">
+  <!-- Tutti i testi della testata e della chiusura (data-contenuto) stanno in src/contenuti.js:
+       src/testi.js li scrive qui una volta sola all'avvio. Non vanno copiati in questo file. -->
+  <header class="testata">
+    <div class="sigillo" aria-hidden="true" data-contenuto="sigillo"></div>
+    <p class="data" data-contenuto="dataLine"></p>
+    <h1 data-contenuto="titolo"></h1>
+    <div class="filetto" aria-hidden="true"></div>
+  </header>
+
+  <p class="riga-countdown" data-contenuto="rigaCountdown"></p>
+
+  <!-- Area del countdown: l'unica parte della pagina che cambia dopo il caricamento (src/main.js).
+       Nome accessibile statico, nessuna regione live: i lettori di schermo non annunciano ogni secondo.
+       Nelle fasi giorno e dopo il cartiglio mostra il messaggio al posto dei numeri. -->
+  <section class="countdown" role="group" aria-label="Il tempo che resta al Giorno del Romics" data-countdown>
+    <ul class="countdown-numeri" data-numeri>
+      <li><span class="countdown-valore" data-valore="giorni">–</span> <span class="countdown-etichetta" data-etichetta="giorni">giorni</span></li>
+      <li><span class="countdown-valore" data-valore="ore">–</span> <span class="countdown-etichetta" data-etichetta="ore">ore</span></li>
+      <li><span class="countdown-valore" data-valore="minuti">–</span> <span class="countdown-etichetta" data-etichetta="minuti">minuti</span></li>
+      <li><span class="countdown-valore" data-valore="secondi">–</span> <span class="countdown-etichetta" data-etichetta="secondi">secondi</span></li>
+    </ul>
+    <p class="countdown-testo" data-testo hidden></p>
+  </section>
+
+  <!-- La Missione: lettera e firma stanno in src/contenuti.js (data-contenuto), scritte una volta sola all'avvio.
+       Il capolettera è CSS (::first-letter): il testo resta intero. Uguale in tutte le fasi del countdown. -->
+  <section class="missione" aria-label="La Missione">
+    <p class="lettera" data-contenuto="missione"></p>
+    <p class="firma" data-contenuto="firmaMissione"></p>
+  </section>
+
+  <!-- Illustrazione provvisoria: due sagome in controluce, nessun volto, nessuna immagine ufficiale.
+       Colore pieno = currentColor (inchiostro); le pieghe «scavano» con il colore della carta. -->
+  <figure class="illustrazione">
+    <svg viewBox="0 0 300 350" role="img" aria-label="Due figure in controluce: lui in kilt, lei in abito ampio">
+      <g fill="currentColor" stroke="none">
+        <!-- Lui -->
+        <circle cx="96" cy="64" r="15"/>
+        <path d="M81 58c2-16 28-20 31-2-6-7-19-9-31 2z"/>
+        <path d="M90 78h12v10H90z"/>
+        <path d="M64 96c6-9 18-10 32-10s26 1 32 10l6 62-12 12H70l-12-12z"/>
+        <!-- plaid sulla spalla -->
+        <path d="M60 100l28-8 46 52-14 14z" opacity=".78"/>
+        <!-- kilt -->
+        <path d="M70 168h52l10 70H62z"/>
+        <!-- gambe -->
+        <path d="M70 238h22v84H72zM100 238h22l-2 84h-20z"/>
+        <path d="M64 322h30v10H58zM98 322h30l6 10H98z"/>
+        <!-- Lei -->
+        <circle cx="212" cy="76" r="13"/>
+        <circle cx="198" cy="70" r="8"/><circle cx="226" cy="70" r="8"/><circle cx="204" cy="62" r="8"/>
+        <circle cx="220" cy="62" r="8"/><circle cx="196" cy="84" r="7"/><circle cx="228" cy="84" r="7"/>
+        <path d="M206 88h12v10h-12z"/>
+        <path d="M192 100c8-6 32-6 40 0l4 64h-48z"/>
+        <path d="M184 164h56l48 170H134z"/>
+      </g>
+      <!-- pieghe e dettagli, nel colore della carta -->
+      <g class="pieghe" fill="none" stroke-width="1.6" stroke-linecap="round">
+        <path d="M82 170l-3 66M94 170l-1 68M106 170l2 68M118 170l5 66"/>
+        <path d="M200 176l-22 150M214 176l-6 156M228 176l10 156M240 176l32 150"/>
+        <path d="M204 104l8 50 8-50"/>
+      </g>
+      <!-- le mani che si cercano -->
+      <path d="M128 142c10 6 30 6 58 -4" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+  </figure>
+
+  <!-- I dieci punti (titolo e riga) stanno in src/contenuti.js: src/preparativi.js riempie l'elenco una
+       volta sola all'avvio. Ogni punto è <li class="preparativo" data-preparativo="N"> con il numero
+       romano (.preparativo-numero) e un .preparativo-corpo (titolo e riga): il link del punto III
+       va in fondo al suo corpo. Nessuna spunta, nessuno stato. -->
+  <section class="preparativi">
+    <h2>Preparativi</h2>
+    <ol class="preparativi-elenco" data-preparativi></ol>
+  </section>
+
+  <footer class="chiusura" data-contenuto="chiusura"></footer>
+</main>
+
+<!-- Il popup della Sarta: finestra modale nativa (showModal), un solo pulsante, nessuna immagine.
+     I testi (data-sarta) stanno in src/contenuti.js: src/sarta.js li scrive una volta sola all'avvio.
+     L'unico ingresso è il link «Conoscete la sarta» in fondo al punto III dei Preparativi. -->
+<dialog class="sarta" data-sarta-dialog aria-labelledby="sarta-titolo">
+  <div class="sarta-carta">
+    <h2 class="sarta-titolo" id="sarta-titolo">
+      <span class="sarta-intestazione" data-sarta="intestazione"></span>
+      <span class="sarta-nome" data-sarta="nome"></span>
+    </h2>
+    <p class="sarta-riga" data-sarta="riga"></p>
+    <div class="filetto" aria-hidden="true"></div>
+    <p class="sarta-testo" data-sarta="testo"></p>
+    <p class="sarta-azioni"><button type="button" class="sarta-chiudi" data-sarta="chiudi"></button></p>
+  </div>
+</dialog>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
