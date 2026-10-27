@@ -16,7 +16,7 @@ export const contenuti = {
   missione:
     'Sassenach, il 28 ottobre 2026, giorno del nostro anniversario, vi scrivo per farvi una proposta. ' +
     'L\'autunno dell\'anno venturo, a Roma, ci sarà il Romics, e io vorrei andarci con voi: io nei panni di Jamie, ' +
-    'voi in quelli di Claire, nel giorno delle loro nozze. Sangue del mio sangue, osso delle mie ossa: ' +
+    'voi in quelli di Claire, nel giorno delle loro nozze. Sangue del mio sangue, ossa delle mie ossa: ' +
     'per quel giorno non manca che una cosa, il vostro sì. ' +
     'Il resto, dinna fash, lo prepareremo insieme, punto per punto, qui sotto.',
   firmaMissione: '— Il vostro Jamie',
