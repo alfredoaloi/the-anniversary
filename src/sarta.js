@@ -2,7 +2,7 @@
 // collegamento del <dialog> nativo. I testi stanno solo in src/contenuti.js (chiavi «sarta» e «linkSarta»):
 // il markup ha i segnaposto vuoti [data-sarta="<chiave>"] e questo modulo li riempie con textContent.
 //
-// L'unico ingresso al popup è il pulsante-link «Conoscete la sarta», aggiunto in fondo al corpo del
+// L'unico ingresso al popup è il pulsante-link «Conosci la sarta», aggiunto in fondo al corpo del
 // punto III dei Preparativi. Il popup ha un solo pulsante, «Chiudi»; si chiude anche con Esc (nativo).
 
 import { contenutiPresenti, segnaposti, testoNonVuoto } from './valida.js';

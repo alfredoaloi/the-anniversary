@@ -87,4 +87,4 @@ Due passi spettano solo al proprietario del repo, una volta sola (**già fatti**
 
 Il repository è pubblico: niente cognomi, indirizzi, numeri di telefono, email né nomi o foto di persone reali. Il personaggio della Sarta resta un'allusione: nei testi pubblici non si dice mai chi è davvero (i test lo controllano).
 
-La pagina chiede ai motori di ricerca di non indicizzarla (`noindex, nofollow`) e non c'è un `robots.txt` (con Pages «di progetto» i crawler leggono solo quello della radice del dominio). L'anteprima del link è generica: titolo «Un invito, mo chridhe», descrizione «Una lettera per voi.».
+La pagina chiede ai motori di ricerca di non indicizzarla (`noindex, nofollow`) e non c'è un `robots.txt` (con Pages «di progetto» i crawler leggono solo quello della radice del dominio). L'anteprima del link è generica: titolo «Un invito, mo chridhe», descrizione «Una lettera per te.».

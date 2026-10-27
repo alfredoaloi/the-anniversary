@@ -24,7 +24,7 @@ const testiSarta = () => [...Object.values(contenuti.sarta), contenuti.linkSarta
 
 test('il popup della Sarta e il testo del link sono quelli della spec', () => {
   assert.deepEqual(contenuti.sarta, ATTESO);
-  assert.equal(contenuti.linkSarta, 'Conoscete la sarta');
+  assert.equal(contenuti.linkSarta, 'Conosci la sarta');
 });
 
 test('i contenuti reali della Sarta passano il controllo', () => {

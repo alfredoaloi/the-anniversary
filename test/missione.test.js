@@ -11,10 +11,10 @@ const sorgente = readFileSync(new URL('../src/contenuti.js', import.meta.url), '
 
 // Il testo della spec (#10, sezione Texts), parola per parola. Fonte di verità indipendente dal codice.
 const MISSIONE_SPEC =
-  'Sassenach, il 28 ottobre 2026, giorno del nostro anniversario, vi scrivo per farvi una proposta. ' +
-  'L\'autunno dell\'anno venturo, a Roma, ci sarà il Romics, e io vorrei andarci con voi: io nei panni di Jamie, ' +
-  'voi in quelli di Claire, nel giorno delle loro nozze. Sangue del mio sangue, ossa delle mie ossa: ' +
-  'per quel giorno non manca che una cosa, il vostro sì. ' +
+  'Sassenach, il 28 ottobre 2026, giorno del nostro anniversario, ti scrivo per farti una proposta. ' +
+  'L\'autunno dell\'anno venturo, a Roma, ci sarà il Romics, e io vorrei andarci con te: io nei panni di Jamie, ' +
+  'tu in quelli di Claire, nel giorno delle loro nozze. Sangue del mio sangue, ossa delle mie ossa: ' +
+  'per quel giorno non manca che una cosa, il tuo sì. ' +
   'Il resto, dinna fash, lo prepareremo insieme, punto per punto, qui sotto.';
 
 // Configurazione di prova per la validazione, indipendente dai contenuti reali.
@@ -51,8 +51,8 @@ test('la Missione nel file di dati è il testo della spec, parola per parola', (
   assert.equal(contenuti.missione, MISSIONE_SPEC);
 });
 
-test('la firma della Missione è «— Il vostro Jamie»', () => {
-  assert.equal(contenuti.firmaMissione, '— Il vostro Jamie');
+test('la firma della Missione è «— Il tuo Jamie»', () => {
+  assert.equal(contenuti.firmaMissione, '— Il tuo Jamie');
 });
 
 test('la Missione reale non è vuota, non nomina la nonna e non ha segnaposto', () => {
@@ -85,7 +85,7 @@ test('la pagina ha i segnaposto della Missione tra il countdown e l\'illustrazio
   }
   const corpo = html.replace(/<head>[\s\S]*<\/head>/, '');
   assert.ok(!corpo.includes('Sassenach, il 28 ottobre'), 'la lettera è scritta anche in index.html');
-  assert.ok(!corpo.includes('Il vostro Jamie'), 'la firma è scritta anche in index.html');
+  assert.ok(!corpo.includes('Il tuo Jamie'), 'la firma è scritta anche in index.html');
 });
 
 test('il capolettera è in borgogna e la firma è a destra, in corsivo, con i colori della tavolozza', () => {

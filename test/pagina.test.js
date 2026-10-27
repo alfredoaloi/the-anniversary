@@ -28,9 +28,9 @@ test('il titolo è «Un invito, mo chridhe», anche per l\'anteprima del link', 
   assert.equal(metaContent('property', 'og:title'), 'Un invito, mo chridhe');
 });
 
-test('la descrizione dell\'anteprima è «Una lettera per voi.» e non rivela altro', () => {
-  assert.equal(metaContent('property', 'og:description'), 'Una lettera per voi.');
-  assert.equal(metaContent('name', 'description'), 'Una lettera per voi.');
+test('la descrizione dell\'anteprima è «Una lettera per te.» e non rivela altro', () => {
+  assert.equal(metaContent('property', 'og:description'), 'Una lettera per te.');
+  assert.equal(metaContent('name', 'description'), 'Una lettera per te.');
 });
 
 test('chiede ai motori di ricerca di non indicizzare la pagina', () => {
