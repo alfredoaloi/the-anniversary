@@ -46,7 +46,7 @@ test('il Giorno del Romics provvisorio è il 30 settembre 2027 alle 10:00 di Rom
 test('i testi del Giorno del Romics e del saluto di chiusura sono quelli della spec', () => {
   assert.equal(
     contenuti.messaggioGiorno,
-    'È il giorno, mo nighean donn! Indossate le nozze di Claire, io metto il plaid: si va al Romics.',
+    'È il giorno, mo nighean donn! Indossa le nozze di Claire, io metto il plaid: si va al Romics.',
   );
   assert.equal(contenuti.salutoChiusura, 'Il Romics è passato, e che giornata, mo chridhe. Slàinte mhath!');
 });

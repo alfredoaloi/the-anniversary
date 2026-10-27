@@ -14,12 +14,12 @@ export const contenuti = {
   // La Missione: la lettera sotto il countdown, un unico paragrafo, e la sua firma. Il capolettera lo
   // fa il foglio di stile. Nessuna data precisa del Romics qui dentro: la dice il countdown.
   missione:
-    'Sassenach, il 28 ottobre 2026, giorno del nostro anniversario, vi scrivo per farvi una proposta. ' +
-    'L\'autunno dell\'anno venturo, a Roma, ci sarà il Romics, e io vorrei andarci con voi: io nei panni di Jamie, ' +
-    'voi in quelli di Claire, nel giorno delle loro nozze. Sangue del mio sangue, osso delle mie ossa: ' +
-    'per quel giorno non manca che una cosa, il vostro sì. ' +
+    'Sassenach, il 28 ottobre 2026, giorno del nostro anniversario, ti scrivo per farti una proposta. ' +
+    'L\'autunno dell\'anno venturo, a Roma, ci sarà il Romics, e io vorrei andarci con te: io nei panni di Jamie, ' +
+    'tu in quelli di Claire, nel giorno delle loro nozze. Sangue del mio sangue, ossa delle mie ossa: ' +
+    'per quel giorno non manca che una cosa, il tuo sì. ' +
     'Il resto, dinna fash, lo prepareremo insieme, punto per punto, qui sotto.',
-  firmaMissione: '— Il vostro Jamie',
+  firmaMissione: '— Il tuo Jamie',
 
   // Il Giorno del Romics: una sola data-ora ISO 8601 con l'offset di Roma esplicito
   // (+02:00 con l'ora legale, +01:00 con l'ora solare).
@@ -33,14 +33,14 @@ export const contenuti = {
   giorniAllaChiusura: 4,
 
   // Cosa compare al posto dei numeri dal Giorno del Romics fino alla chiusura.
-  messaggioGiorno: 'È il giorno, mo nighean donn! Indossate le nozze di Claire, io metto il plaid: si va al Romics.',
+  messaggioGiorno: 'È il giorno, mo nighean donn! Indossa le nozze di Claire, io metto il plaid: si va al Romics.',
 
   // Cosa compare al posto dei numeri dalla chiusura in poi.
   salutoChiusura: 'Il Romics è passato, e che giornata, mo chridhe. Slàinte mhath!',
 
   // La Sarta: il link in fondo al punto III dei Preparativi (l'unico ingresso al popup) e il popup.
   // Nessun luogo, nessuna foto, nessuna riga che dica chi è davvero: lo riconosce chi la conosce.
-  linkSarta: 'Conoscete la sarta',
+  linkSarta: 'Conosci la sarta',
   sarta: {
     intestazione: 'Sartoria di costumi storici',
     nome: 'Mistress Marie',
