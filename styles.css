@@ -199,14 +199,18 @@ h1 em { color: var(--wine); }
   color: var(--wine);
 }
 
-/* ---------- Illustrazione (provvisoria: due sagome in controluce, nessun volto) ---------- */
+/* ---------- Illustrazione: il dipinto di Jamie e Claire ----------
+   Il bordo chiaro dell'immagine è carta: con multiply si fonde con quella della pagina. */
 .illustrazione {
   margin: 26px auto 0;
-  width: min(300px, 80%);
-  color: var(--ink);
+  width: min(440px, 100%);
 }
-.illustrazione svg { display: block; width: 100%; height: auto; }
-.illustrazione .pieghe { stroke: var(--paper); }
+.illustrazione img {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+}
 
 /* ---------- Preparativi: dieci punti in cifre romane, senza spunte né stato ---------- */
 .preparativi { margin: 34px 0 0; text-align: left; }

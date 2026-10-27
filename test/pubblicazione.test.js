@@ -73,7 +73,7 @@ test('il workflow pubblica solo i file statici, con le azioni ufficiali e i perm
   // L'artifact non è mai la radice del repo (che contiene test, docs, package.json...).
   const path = yml.match(/upload-pages-artifact@[\s\S]*?path:\s*(\S+)/)?.[1];
   assert.ok(path && path !== '.' && path !== './', 'l\'artifact non deve essere la radice del repo');
-  for (const file of ['index.html', 'styles.css', 'src']) {
+  for (const file of ['index.html', 'styles.css', 'src', 'img']) {
     assert.match(yml, new RegExp(`cp -r[^\\n]*\\b${file}\\b`), `${file} non viene copiato nell'artifact`);
   }
   assert.doesNotMatch(yml, /cp [^\n]*\b(test|docs|package\.json|GLOSSARY\.md|\.github)\b/);
