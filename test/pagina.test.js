@@ -1,7 +1,7 @@
 // Seam: la pagina pubblicata (index.html) letta come testo, come la vede chi la apre.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { contenuti } from '../src/contenuti.js';
 import { TESTI_MISSIONE, TESTI_TESTATA } from '../src/testi.js';
 
@@ -109,11 +109,16 @@ test('le parti della pagina sono nell\'ordine della spec: testata, countdown, Mi
   }
 });
 
-test('l\'illustrazione è un SVG inline con un nome accessibile e senza volti', () => {
+test('l\'illustrazione è un\'immagine locale con testo alternativo e dimensioni, e il file esiste', () => {
   const fig = html.match(/<figure class="illustrazione"[\s\S]*?<\/figure>/);
   assert.ok(fig, 'manca la figura dell\'illustrazione');
-  assert.match(fig[0], /<svg\b[^>]*\brole="img"[^>]*\baria-label="[^"]{10,}"/);
-  assert.doesNotMatch(fig[0], /<(img|image)\b/i);
+  const img = fig[0].match(/<img\b[^>]*>/);
+  assert.ok(img, 'manca l\'<img>');
+  assert.match(img[0], /\balt="[^"]{20,}"/, 'alt troppo corto');
+  assert.match(img[0], /\bwidth="\d+"[^>]*\bheight="\d+"|\bheight="\d+"[^>]*\bwidth="\d+"/, 'mancano width e height (niente salti di layout)');
+  const src = img[0].match(/\bsrc="([^"]+)"/)?.[1];
+  assert.ok(src && !/^(https?:)?\/\//.test(src), 'l\'immagine deve essere locale');
+  assert.ok(existsSync(new URL(`../${src}`, import.meta.url)), `manca il file ${src}`);
 });
 
 test('prefers-reduced-motion disattiva animazioni e transizioni', () => {

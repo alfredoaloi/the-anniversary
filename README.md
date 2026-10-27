@@ -8,6 +8,7 @@ HTML, CSS e JavaScript puro con moduli ES: nessuna dipendenza, nessun build step
 
 - `index.html`, `styles.css`: la pagina e il suo stile.
 - `src/`: i moduli ES (punto d'ingresso: `src/main.js`).
+- `img/`: l'illustrazione della pagina (`jamie-e-claire.webp`), un dipinto generato da un prompt originale, senza riferimenti a persone reali.
 - `test/`: i test, con il runner di Node.
 - `.github/workflows/deploy.yml`: il workflow di pubblicazione (vedi *Pubblicazione*).
 
