@@ -1,9 +1,10 @@
 // PROTOTIPO, DA BUTTARE. Domanda: «come dovrebbero essere Jamie e Claire?» (i capelli di lui, soprattutto).
 // Quattro versioni dell'illustrazione sulla stessa pagina, scelte con ?variant= e con la barra in basso:
-//   O = l'illustrazione attuale (per confronto), A = sagome a profilo, B = cammeo, C = figure a colori.
+//   O = l'illustrazione attuale (per confronto), A = sagome a profilo, B = cammeo, C = figure a colori,
+//   D = la scena del bacio a lume di candela (da un'immagine di riferimento dell'utente: capelli, abiti, luce).
 // Tutte senza volti (la spec dell'Invito lo vuole). Nessuna persistenza, nessun asset esterno.
 
-const NOMI = { O: 'Originale', A: 'Sagome a profilo', B: 'Cammeo', C: 'Figure a colori' };
+const NOMI = { O: 'Originale', A: 'Sagome a profilo', B: 'Cammeo', C: 'Figure a colori', D: 'Il bacio, a lume di candela' };
 const CHIAVI = Object.keys(NOMI);
 
 // Tavolozza della pagina + i colori dei capelli.
@@ -215,7 +216,80 @@ function varianteC() {
   return { viewBox: '0 0 300 350', etichetta: 'Due figure a colori, mano nella mano: lui in kilt di tartan con i capelli rossi, lei in abito argento con i ricci castani', corpo: defs + lui + lei + mani };
 }
 
-const VARIANTI = { A: varianteA, B: varianteB, C: varianteC };
+function varianteD() {
+  // Dalla scena di riferimento: arco gotico e candele dietro, lui con i capelli scuri e mossi, giacca verde,
+  // plaid sulla spalla e fazzoletto bianco; lei con i capelli raccolti, spalle nude, maniche a sbuffo, corsetto salvia.
+  const pelle = '#efcfa8';
+  const pelleOmbra = '#c99a72';
+  const castagna = '#4b2a1b';
+  const castagnaLuce = '#855030';
+  const bruna = '#34201a';
+  const brunaLuce = '#6f4a33';
+  const salvia = '#9fb09b';
+  const lino = '#f3ead6';
+  const verde = '#3c5a45';
+  const defs = `<defs>
+    <radialGradient id="lume" cx=".78" cy=".62" r=".6"><stop offset="0" stop-color="#f0a850" stop-opacity=".6"/><stop offset="1" stop-color="#f0a850" stop-opacity="0"/></radialGradient>
+    <pattern id="plaid" width="16" height="16" patternUnits="userSpaceOnUse">
+      <rect width="16" height="16" fill="#6f5238"/>
+      <rect y="3" width="16" height="5" fill="#8a3f2c" opacity=".75"/><rect x="3" width="5" height="16" fill="#8a3f2c" opacity=".75"/>
+      <rect y="11" width="16" height="1.2" fill="#d6c4a0" opacity=".7"/><rect x="11" width="1.2" height="16" fill="#d6c4a0" opacity=".7"/>
+    </pattern></defs>`;
+  const candela = (x, y, h) => `<rect x="${x}" y="${y}" width="7" height="${h}" rx="1" fill="${lino}"/>` +
+    `<circle cx="${x + 3.5}" cy="${y - 7}" r="9" fill="#ffd27a" opacity=".35"/><path d="M${x + 3.5} ${y - 14}c4 4 4 8 0 10c-4-2-4-6 0-10z" fill="#ffe3a0"/>`;
+  const fondo = `
+    <path d="M10 340V122C10 54 72 14 150 14s140 40 140 108V340z" fill="${INK}"/>
+    <path d="M10 340V122C10 54 72 14 150 14s140 40 140 108V340z" fill="url(#lume)"/>
+    <path d="M20 340V124C20 62 78 26 150 26s130 36 130 98V340" fill="none" stroke="${CUOIO}" stroke-width="1.6"/>
+    <g fill="#a9c4d8" opacity=".5"><rect x="22" y="96" width="9" height="16" rx="2"/><rect x="34" y="96" width="9" height="16" rx="2"/><rect x="22" y="118" width="9" height="16" rx="2"/><rect x="34" y="118" width="9" height="16" rx="2"/><rect x="22" y="140" width="9" height="16" rx="2"/><rect x="34" y="140" width="9" height="16" rx="2"/></g>
+    <g fill="none" stroke="#17110c" stroke-width="2.4" stroke-linecap="round"><path d="M244 230c0-30 4-46 18-60M262 230c6-26 12-40 24-48M236 182c6-4 14-4 20 2"/></g>
+    ${candela(238, 150, 26)}${candela(254, 132, 30)}${candela(268, 168, 24)}${candela(222, 176, 22)}`;
+
+  const lei = `
+    <!-- corpo di lei: spalle nude, corsetto, manica a sbuffo con balze -->
+    <path d="M150 340L156 218C150 190 166 172 196 168L240 172C262 176 270 194 262 214L254 340Z" fill="${pelle}"/>
+    <path d="M158 340L162 226C186 238 224 238 250 224L256 340Z" fill="${salvia}"/>
+    <path d="M162 226C186 238 224 238 250 224" fill="none" stroke="${lino}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M178 244l4 96M196 246l2 94M214 246l-1 94M232 242l-4 98" stroke="#728a72" stroke-width="1.3" fill="none" opacity=".7"/>
+    <path d="M238 190C266 184 298 204 292 254C290 270 272 274 254 270C238 262 232 238 238 190Z" fill="${lino}"/>
+    <path d="M246 206c10 14 14 34 8 56M262 200c10 16 12 40 4 64" stroke="#d2c4a6" stroke-width="1.4" fill="none"/>
+    <path d="M248 266C238 284 248 304 260 302C264 314 282 312 284 298C298 294 298 278 288 266Z" fill="${lino}" stroke="#d2c4a6" stroke-width="1.2"/>
+    <path d="M200 160c-6 8-4 14 0 18M172 174c10 10 40 14 66 0" fill="none" stroke="${INK}" stroke-width="1" opacity=".0"/>`;
+
+  const lui = `
+    <!-- corpo di lui: giacca verde, plaid dalla spalla, camicia e fazzoletto -->
+    <path d="M12 340L20 216C26 180 58 160 92 156L138 158C162 164 174 182 172 204L176 340Z" fill="${verde}"/>
+    <path d="M12 340L16 236C24 196 58 176 92 172L122 214L152 262L176 340Z" fill="url(#plaid)"/>
+    <path d="M92 172L122 214L152 262L176 340" fill="none" stroke="#2a1e14" stroke-width="1.5" opacity=".6"/>
+    <path d="M96 156c10-8 28-8 40 0l-6 16-30 2z" fill="${lino}"/>
+    <path d="M120 164c6 8 12 22 12 34l-12-4z" fill="${lino}" stroke="#d2c4a6" stroke-width="1"/>`;
+
+  const teste = `
+    <!-- lei: viso rovesciato indietro, capelli lisci raccolti con ricci sulla nuca -->
+    <g transform="translate(181 112) scale(-1.5 1.5) rotate(-7)">
+      <path d="${VISO_LEI}" fill="${pelle}"/>
+      <path d="M-4 -26C8 -26 16 -18 15 -8C10 -12 4 -16 -4 -16C-10 -14 -14 -8 -14 0L-20 4C-26 -6 -22 -24 -4 -26Z" fill="${bruna}"/>
+      <path d="M-6 -22C2 -23 8 -19 10 -13" fill="none" stroke="${brunaLuce}" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M-16 -2C-24 4 -26 14 -22 22" fill="none" stroke="${bruna}" stroke-width="3" stroke-linecap="round"/>
+      ${ammassoRicci(-17, -2, 8, 9, 8, 4.2, 6, 5, bruna, brunaLuce)}
+      ${ricciolo(-24, 14, 4.5, bruna, brunaLuce)}${ricciolo(-21, 24, 4, bruna, brunaLuce)}
+    </g>
+    <path d="M172 164c14 12 26 12 38 0" fill="none" stroke="${lino}" stroke-width="2.2" opacity=".9"/>
+    <!-- lui: chinato verso di lei, capelli scuri mossi fino al colletto -->
+    <g transform="translate(120 98) scale(1.7) rotate(8)">
+      <path d="${VISO_LUI}" fill="${pelle}"/>
+      <path d="M14 -4C18 0 21 3 21 4" fill="none" stroke="${pelleOmbra}" stroke-width=".8" opacity=".0"/>
+      <path d="${CAPELLI_LUI}" fill="${castagna}"/>
+      <g fill="none" stroke-linecap="round" stroke-width="1.2">
+        ${CIOCCHE_LUI.map((d, i) => `<path d="${d}" stroke="${i % 2 ? castagnaLuce : '#2f1a10'}"/>`).join('')}
+      </g>
+      ${ricciolo(-34, 18, 5, castagna, castagnaLuce)}${ricciolo(-32, 30, 5.5, castagna, castagnaLuce)}${ricciolo(-24, 38, 5, castagna, castagnaLuce)}${ricciolo(-14, 41, 5, castagna, castagnaLuce)}${ricciolo(-30, -10, 4.5, castagna, castagnaLuce)}${ricciolo(-26, -24, 5, castagna, castagnaLuce)}
+      <path d="${ORECCHIO}" fill="${pelle}" stroke="${pelleOmbra}" stroke-width="1"/>
+    </g>`;
+  return { viewBox: '0 0 300 350', etichetta: 'Una coppia nella luce delle candele sotto un arco gotico: lui con i capelli scuri e mossi, giacca verde e plaid, lei con i capelli raccolti e le maniche bianche a sbuffo, i visi vicini', corpo: defs + fondo + lei + lui + teste };
+}
+
+const VARIANTI = { A: varianteA, B: varianteB, C: varianteC, D: varianteD };
 
 function chiaveCorrente() {
   const v = new URLSearchParams(location.search).get('variant');
